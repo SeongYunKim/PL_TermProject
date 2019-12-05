@@ -1,0 +1,126 @@
+Terminals unused in grammar
+
+   FLOAT
+   SEMICOLON
+   "int"
+   "float"
+   "mainprog"
+   "function"
+   "procedure"
+   "begin"
+   "end"
+   "if"
+   "then"
+   "else"
+   "nop"
+   "while"
+   "return"
+   "print"
+   "in"
+   "+"
+   "-"
+   "*"
+   "/"
+   "=="
+   "!="
+   "<="
+   ">="
+   "<"
+   ">"
+   "!"
+
+
+문법
+
+    0 $accept: ASSIGNMENT $end
+
+    1 ASSIGNMENT: ID '=' INTEGER
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'=' (61) 1
+error (256)
+ID <name> (258) 1
+INTEGER <intData> (259) 1
+FLOAT <floatData> (260)
+SEMICOLON (261)
+"int" (262)
+"float" (263)
+"mainprog" (264)
+"function" (265)
+"procedure" (266)
+"begin" (267)
+"end" (268)
+"if" (269)
+"then" (270)
+"else" (271)
+"nop" (272)
+"while" (273)
+"return" (274)
+"print" (275)
+"in" (276)
+"+" (277)
+"-" (278)
+"*" (279)
+"/" (280)
+"==" (281)
+"!=" (282)
+"<=" (283)
+">=" (284)
+"<" (285)
+">" (286)
+"!" (287)
+
+
+Nonterminals, with rules where they appear
+
+$accept (34)
+    on left: 0
+ASSIGNMENT <name> (35)
+    on left: 1, on right: 0
+
+
+State 0
+
+    0 $accept: . ASSIGNMENT $end
+
+    ID  shift, and go to state 1
+
+    ASSIGNMENT  go to state 2
+
+
+State 1
+
+    1 ASSIGNMENT: ID . '=' INTEGER
+
+    '='  shift, and go to state 3
+
+
+State 2
+
+    0 $accept: ASSIGNMENT . $end
+
+    $end  shift, and go to state 4
+
+
+State 3
+
+    1 ASSIGNMENT: ID '=' . INTEGER
+
+    INTEGER  shift, and go to state 5
+
+
+State 4
+
+    0 $accept: ASSIGNMENT $end .
+
+    $default  accept
+
+
+State 5
+
+    1 ASSIGNMENT: ID '=' INTEGER .
+
+    $default  reduce using rule 1 (ASSIGNMENT)
