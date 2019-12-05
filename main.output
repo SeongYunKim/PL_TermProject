@@ -1,147 +1,1766 @@
 Terminals unused in grammar
 
-   FLOAT
-   SEMICOLON
-   "int"
-   "float"
-   "mainprog"
-   "function"
-   "procedure"
-   "begin"
-   "end"
-   "if"
-   "then"
-   "else"
-   "nop"
-   "while"
-   "return"
-   "print"
-   "in"
-   "+"
-   "-"
-   "*"
-   "/"
-   "=="
-   "!="
-   "<="
-   ">="
-   "<"
-   ">"
-   "!"
+   THEN
+
+
+State 66 충돌: 1 쉬프트/리듀스
+State 113 충돌: 2 쉬프트/리듀스
+State 117 충돌: 1 쉬프트/리듀스
+State 124 충돌: 1 쉬프트/리듀스
+State 132 충돌: 1 쉬프트/리듀스
+State 138 충돌: 1 쉬프트/리듀스
 
 
 문법
 
-    0 $accept: PROG $end
+    0 $accept: PROGRAM $end
 
-    1 PROG: ASSIGNMENT ASSIGNMENT
+    1 PROGRAM: MAINPROG ID SEMICOLON DECLARATIONS SUBPROGRAM_DECLARATIONS COMPOUND_STATEMENT
 
-    2 ASSIGNMENT: ID '=' INTEGER
+    2 DECLARATIONS: TYPE IDENTIFIER_LIST SEMICOLON DECLARATIONS
+    3             | %empty
+
+    4 IDENTIFIER_LIST: ID
+    5                | ID ',' IDENTIFIER_LIST
+
+    6 $@1: %empty
+
+    7 TYPE: STANDARD_TYPE $@1 STANDARD_TYPE '[' INTEGER ']'
+
+    8 $@2: %empty
+
+    9 STANDARD_TYPE: "int" $@2 "float"
+
+   10 SUBPROGRAM_DECLARATIONS: SUBPROGRAM_DECLARATION SUBPROGRAM_DECLARATIONS
+   11                        | %empty
+
+   12 SUBPROGRAM_DECLARATION: SUBPROGRAM_HEAD DECLARATIONS COMPOUND_STATEMENT
+
+   13 SUBPROGRAM_HEAD: FUNCTION ID ARGUMENTS ':' STANDARD_TYPE SEMICOLON
+   14                | PROCEDURE ID ARGUMENTS SEMICOLON
+
+   15 ARGUMENTS: '(' PARAMETER_LIST ')'
+   16          | %empty
+
+   17 PARAMETER_LIST: IDENTIFIER_LIST ':' TYPE
+   18               | IDENTIFIER_LIST ':' TYPE SEMICOLON PARAMETER_LIST
+
+   19 COMPOUND_STATEMENT: BODY_BEGIN STATEMENT_LIST BODY_END
+
+   20 STATEMENT_LIST: STATEMENT
+   21               | STATEMENT SEMICOLON STATEMENT_LIST
+
+   22 STATEMENT: VARIABLE '=' EXPRESSION
+   23          | PRINT_STATEMENT
+   24          | PROCEDURE_STATEMENT
+   25          | COMPOUND_STATEMENT
+   26          | IF_STATEMENT
+   27          | WHILE_STATEMENT
+   28          | FOR_STATEMENT
+   29          | RETURN EXPRESSION
+   30          | NOP
+
+   31 IF_STATEMENT: IF EXPRESSION ':' STATEMENT
+   32             | IF EXPRESSION ':' STATEMENT ELIF_STATEMENT
+   33             | IF EXPRESSION ':' STATEMENT ELIF_STATEMENT ELSE ':' STATEMENT
+   34             | IF EXPRESSION ':' STATEMENT ELSE ':' STATEMENT
+
+   35 ELIF_STATEMENT: ELIF EXPRESSION ':' STATEMENT
+   36               | ELIF EXPRESSION ':' STATEMENT ELIF_STATEMENT
+
+   37 WHILE_STATEMENT: WHILE EXPRESSION ':' STATEMENT
+   38                | WHILE EXPRESSION ':' STATEMENT ELSE ':' STATEMENT
+
+   39 FOR_STATEMENT: FOR EXPRESSION IN EXPRESSION ':' STATEMENT
+   40              | FOR EXPRESSION IN EXPRESSION ':' STATEMENT ELSE ':' STATEMENT
+
+   41 PRINT_STATEMENT: PRINT
+   42                | PRINT '(' EXPRESSION ')'
+
+   43 VARIABLE: ID
+   44         | ID '[' EXPRESSION ']'
+
+   45 PROCEDURE_STATEMENT: ID '(' ACTUAL_PARAMETER_EXPRESSION ')'
+
+   46 ACTUAL_PARAMETER_EXPRESSION: EXPRESSION_LIST
+   47                            | %empty
+
+   48 EXPRESSION_LIST: EXPRESSION
+   49                | EXPRESSION ',' EXPRESSION_LIST
+
+   50 EXPRESSION: SIMPLE_EXPRESSION
+   51           | SIMPLE_EXPRESSION RELOP SIMPLE_EXPRESSION
+
+   52 SIMPLE_EXPRESSION: TERM
+   53                  | TERM ADDOP SIMPLE_EXPRESSION
+
+   54 TERM: FACTOR
+   55     | FACTOR MULTOP TERM
+
+   56 FACTOR: INTEGER
+   57       | FLOAT
+   58       | VARIABLE
+   59       | PROCEDURE_STATEMENT
+   60       | OP_NOT FACTOR
+   61       | SIGN FACTOR
+
+   62 SIGN: OP_PLUS
+   63     | OP_MINUS
+
+   64 RELOP: OP_LET
+   65      | OP_GET
+   66      | OP_LT
+   67      | OP_GT
+   68      | OP_EQ
+   69      | OP_NEQ
+   70      | IN
+
+   71 ADDOP: OP_PLUS
+   72      | OP_MINUS
+
+   73 MULTOP: OP_MUL
+   74       | OP_DIV
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'=' (61) 2
+'(' (40) 15 42 45
+')' (41) 15 42 45
+',' (44) 5 49
+':' (58) 13 17 18 31 32 33 34 35 36 37 38 39 40
+'=' (61) 22
+'[' (91) 7 44
+']' (93) 7 44
 error (256)
-ID <name> (258) 2
-INTEGER <intData> (259) 2
-FLOAT <floatData> (260)
-SEMICOLON (261)
-"int" (262)
-"float" (263)
-"mainprog" (264)
-"function" (265)
-"procedure" (266)
-"begin" (267)
-"end" (268)
-"if" (269)
-"then" (270)
-"else" (271)
-"nop" (272)
-"while" (273)
-"return" (274)
-"print" (275)
-"in" (276)
-"+" (277)
-"-" (278)
-"*" (279)
-"/" (280)
-"==" (281)
-"!=" (282)
-"<=" (283)
-">=" (284)
-"<" (285)
-">" (286)
-"!" (287)
+ID <name> (258) 1 4 5 13 14 43 44 45
+INTEGER <intData> (259) 7 56
+FLOAT <floatData> (260) 57
+SEMICOLON (261) 1 2 13 14 18 21
+"int" (262) 9
+"float" (263) 9
+MAINPROG (264) 1
+FUNCTION (265) 13
+PROCEDURE (266) 14
+BODY_BEGIN (267) 19
+BODY_END (268) 19
+IF (269) 31 32 33 34
+ELIF (270) 35 36
+THEN (271)
+ELSE (272) 33 34 38 40
+NOP (273) 30
+WHILE (274) 37 38
+FOR (275) 39 40
+RETURN (276) 29
+PRINT (277) 41 42
+IN (278) 39 40 70
+OP_PLUS (279) 62 71
+OP_MINUS (280) 63 72
+OP_MUL (281) 73
+OP_DIV (282) 74
+OP_EQ (283) 68
+OP_NEQ (284) 69
+OP_LET (285) 64
+OP_GET (286) 65
+OP_LT (287) 66
+OP_GT (288) 67
+OP_NOT (289) 60
 
 
 Nonterminals, with rules where they appear
 
-$accept (34)
+$accept (42)
     on left: 0
-PROG <name> (35)
+PROGRAM <name> (43)
     on left: 1, on right: 0
-ASSIGNMENT <name> (36)
-    on left: 2, on right: 1
+DECLARATIONS <name> (44)
+    on left: 2 3, on right: 1 2 12
+IDENTIFIER_LIST <name> (45)
+    on left: 4 5, on right: 2 5 17 18
+TYPE <name> (46)
+    on left: 7, on right: 2 17 18
+$@1 (47)
+    on left: 6, on right: 7
+STANDARD_TYPE <name> (48)
+    on left: 9, on right: 7 13
+$@2 (49)
+    on left: 8, on right: 9
+SUBPROGRAM_DECLARATIONS <name> (50)
+    on left: 10 11, on right: 1 10
+SUBPROGRAM_DECLARATION <name> (51)
+    on left: 12, on right: 10
+SUBPROGRAM_HEAD (52)
+    on left: 13 14, on right: 12
+ARGUMENTS <name> (53)
+    on left: 15 16, on right: 13 14
+PARAMETER_LIST <name> (54)
+    on left: 17 18, on right: 15 18
+COMPOUND_STATEMENT <name> (55)
+    on left: 19, on right: 1 12 25
+STATEMENT_LIST <name> (56)
+    on left: 20 21, on right: 19 21
+STATEMENT <name> (57)
+    on left: 22 23 24 25 26 27 28 29 30, on right: 20 21 31 32 33 34
+    35 36 37 38 39 40
+IF_STATEMENT <name> (58)
+    on left: 31 32 33 34, on right: 26
+ELIF_STATEMENT <name> (59)
+    on left: 35 36, on right: 32 33 36
+WHILE_STATEMENT <name> (60)
+    on left: 37 38, on right: 27
+FOR_STATEMENT <name> (61)
+    on left: 39 40, on right: 28
+PRINT_STATEMENT <name> (62)
+    on left: 41 42, on right: 23
+VARIABLE <name> (63)
+    on left: 43 44, on right: 22 58
+PROCEDURE_STATEMENT <name> (64)
+    on left: 45, on right: 24 59
+ACTUAL_PARAMETER_EXPRESSION <name> (65)
+    on left: 46 47, on right: 45
+EXPRESSION_LIST <name> (66)
+    on left: 48 49, on right: 46 49
+EXPRESSION <name> (67)
+    on left: 50 51, on right: 22 29 31 32 33 34 35 36 37 38 39 40 42
+    44 48 49
+SIMPLE_EXPRESSION <name> (68)
+    on left: 52 53, on right: 50 51 53
+TERM <name> (69)
+    on left: 54 55, on right: 52 53 55
+FACTOR <name> (70)
+    on left: 56 57 58 59 60 61, on right: 54 55 60 61
+SIGN <name> (71)
+    on left: 62 63, on right: 61
+RELOP <name> (72)
+    on left: 64 65 66 67 68 69 70, on right: 51
+ADDOP <name> (73)
+    on left: 71 72, on right: 53
+MULTOP <name> (74)
+    on left: 73 74, on right: 55
 
 
 State 0
 
-    0 $accept: . PROG $end
+    0 $accept: . PROGRAM $end
 
-    ID  shift, and go to state 1
+    MAINPROG  shift, and go to state 1
 
-    PROG        go to state 2
-    ASSIGNMENT  go to state 3
+    PROGRAM  go to state 2
 
 
 State 1
 
-    2 ASSIGNMENT: ID . '=' INTEGER
+    1 PROGRAM: MAINPROG . ID SEMICOLON DECLARATIONS SUBPROGRAM_DECLARATIONS COMPOUND_STATEMENT
 
-    '='  shift, and go to state 4
+    ID  shift, and go to state 3
 
 
 State 2
 
-    0 $accept: PROG . $end
+    0 $accept: PROGRAM . $end
 
-    $end  shift, and go to state 5
+    $end  shift, and go to state 4
 
 
 State 3
 
-    1 PROG: ASSIGNMENT . ASSIGNMENT
+    1 PROGRAM: MAINPROG ID . SEMICOLON DECLARATIONS SUBPROGRAM_DECLARATIONS COMPOUND_STATEMENT
 
-    ID  shift, and go to state 1
-
-    ASSIGNMENT  go to state 6
+    SEMICOLON  shift, and go to state 5
 
 
 State 4
 
-    2 ASSIGNMENT: ID '=' . INTEGER
-
-    INTEGER  shift, and go to state 7
-
-
-State 5
-
-    0 $accept: PROG $end .
+    0 $accept: PROGRAM $end .
 
     $default  accept
 
 
+State 5
+
+    1 PROGRAM: MAINPROG ID SEMICOLON . DECLARATIONS SUBPROGRAM_DECLARATIONS COMPOUND_STATEMENT
+
+    "int"  shift, and go to state 6
+
+    $default  reduce using rule 3 (DECLARATIONS)
+
+    DECLARATIONS   go to state 7
+    TYPE           go to state 8
+    STANDARD_TYPE  go to state 9
+
+
 State 6
 
-    1 PROG: ASSIGNMENT ASSIGNMENT .
+    9 STANDARD_TYPE: "int" . $@2 "float"
 
-    $default  reduce using rule 1 (PROG)
+    $default  reduce using rule 8 ($@2)
+
+    $@2  go to state 10
 
 
 State 7
 
-    2 ASSIGNMENT: ID '=' INTEGER .
+    1 PROGRAM: MAINPROG ID SEMICOLON DECLARATIONS . SUBPROGRAM_DECLARATIONS COMPOUND_STATEMENT
 
-    $default  reduce using rule 2 (ASSIGNMENT)
+    FUNCTION   shift, and go to state 11
+    PROCEDURE  shift, and go to state 12
+
+    $default  reduce using rule 11 (SUBPROGRAM_DECLARATIONS)
+
+    SUBPROGRAM_DECLARATIONS  go to state 13
+    SUBPROGRAM_DECLARATION   go to state 14
+    SUBPROGRAM_HEAD          go to state 15
+
+
+State 8
+
+    2 DECLARATIONS: TYPE . IDENTIFIER_LIST SEMICOLON DECLARATIONS
+
+    ID  shift, and go to state 16
+
+    IDENTIFIER_LIST  go to state 17
+
+
+State 9
+
+    7 TYPE: STANDARD_TYPE . $@1 STANDARD_TYPE '[' INTEGER ']'
+
+    $default  reduce using rule 6 ($@1)
+
+    $@1  go to state 18
+
+
+State 10
+
+    9 STANDARD_TYPE: "int" $@2 . "float"
+
+    "float"  shift, and go to state 19
+
+
+State 11
+
+   13 SUBPROGRAM_HEAD: FUNCTION . ID ARGUMENTS ':' STANDARD_TYPE SEMICOLON
+
+    ID  shift, and go to state 20
+
+
+State 12
+
+   14 SUBPROGRAM_HEAD: PROCEDURE . ID ARGUMENTS SEMICOLON
+
+    ID  shift, and go to state 21
+
+
+State 13
+
+    1 PROGRAM: MAINPROG ID SEMICOLON DECLARATIONS SUBPROGRAM_DECLARATIONS . COMPOUND_STATEMENT
+
+    BODY_BEGIN  shift, and go to state 22
+
+    COMPOUND_STATEMENT  go to state 23
+
+
+State 14
+
+   10 SUBPROGRAM_DECLARATIONS: SUBPROGRAM_DECLARATION . SUBPROGRAM_DECLARATIONS
+
+    FUNCTION   shift, and go to state 11
+    PROCEDURE  shift, and go to state 12
+
+    $default  reduce using rule 11 (SUBPROGRAM_DECLARATIONS)
+
+    SUBPROGRAM_DECLARATIONS  go to state 24
+    SUBPROGRAM_DECLARATION   go to state 14
+    SUBPROGRAM_HEAD          go to state 15
+
+
+State 15
+
+   12 SUBPROGRAM_DECLARATION: SUBPROGRAM_HEAD . DECLARATIONS COMPOUND_STATEMENT
+
+    "int"  shift, and go to state 6
+
+    $default  reduce using rule 3 (DECLARATIONS)
+
+    DECLARATIONS   go to state 25
+    TYPE           go to state 8
+    STANDARD_TYPE  go to state 9
+
+
+State 16
+
+    4 IDENTIFIER_LIST: ID .
+    5                | ID . ',' IDENTIFIER_LIST
+
+    ','  shift, and go to state 26
+
+    $default  reduce using rule 4 (IDENTIFIER_LIST)
+
+
+State 17
+
+    2 DECLARATIONS: TYPE IDENTIFIER_LIST . SEMICOLON DECLARATIONS
+
+    SEMICOLON  shift, and go to state 27
+
+
+State 18
+
+    7 TYPE: STANDARD_TYPE $@1 . STANDARD_TYPE '[' INTEGER ']'
+
+    "int"  shift, and go to state 6
+
+    STANDARD_TYPE  go to state 28
+
+
+State 19
+
+    9 STANDARD_TYPE: "int" $@2 "float" .
+
+    $default  reduce using rule 9 (STANDARD_TYPE)
+
+
+State 20
+
+   13 SUBPROGRAM_HEAD: FUNCTION ID . ARGUMENTS ':' STANDARD_TYPE SEMICOLON
+
+    '('  shift, and go to state 29
+
+    $default  reduce using rule 16 (ARGUMENTS)
+
+    ARGUMENTS  go to state 30
+
+
+State 21
+
+   14 SUBPROGRAM_HEAD: PROCEDURE ID . ARGUMENTS SEMICOLON
+
+    '('  shift, and go to state 29
+
+    $default  reduce using rule 16 (ARGUMENTS)
+
+    ARGUMENTS  go to state 31
+
+
+State 22
+
+   19 COMPOUND_STATEMENT: BODY_BEGIN . STATEMENT_LIST BODY_END
+
+    ID          shift, and go to state 32
+    BODY_BEGIN  shift, and go to state 22
+    IF          shift, and go to state 33
+    NOP         shift, and go to state 34
+    WHILE       shift, and go to state 35
+    FOR         shift, and go to state 36
+    RETURN      shift, and go to state 37
+    PRINT       shift, and go to state 38
+
+    COMPOUND_STATEMENT   go to state 39
+    STATEMENT_LIST       go to state 40
+    STATEMENT            go to state 41
+    IF_STATEMENT         go to state 42
+    WHILE_STATEMENT      go to state 43
+    FOR_STATEMENT        go to state 44
+    PRINT_STATEMENT      go to state 45
+    VARIABLE             go to state 46
+    PROCEDURE_STATEMENT  go to state 47
+
+
+State 23
+
+    1 PROGRAM: MAINPROG ID SEMICOLON DECLARATIONS SUBPROGRAM_DECLARATIONS COMPOUND_STATEMENT .
+
+    $default  reduce using rule 1 (PROGRAM)
+
+
+State 24
+
+   10 SUBPROGRAM_DECLARATIONS: SUBPROGRAM_DECLARATION SUBPROGRAM_DECLARATIONS .
+
+    $default  reduce using rule 10 (SUBPROGRAM_DECLARATIONS)
+
+
+State 25
+
+   12 SUBPROGRAM_DECLARATION: SUBPROGRAM_HEAD DECLARATIONS . COMPOUND_STATEMENT
+
+    BODY_BEGIN  shift, and go to state 22
+
+    COMPOUND_STATEMENT  go to state 48
+
+
+State 26
+
+    5 IDENTIFIER_LIST: ID ',' . IDENTIFIER_LIST
+
+    ID  shift, and go to state 16
+
+    IDENTIFIER_LIST  go to state 49
+
+
+State 27
+
+    2 DECLARATIONS: TYPE IDENTIFIER_LIST SEMICOLON . DECLARATIONS
+
+    "int"  shift, and go to state 6
+
+    $default  reduce using rule 3 (DECLARATIONS)
+
+    DECLARATIONS   go to state 50
+    TYPE           go to state 8
+    STANDARD_TYPE  go to state 9
+
+
+State 28
+
+    7 TYPE: STANDARD_TYPE $@1 STANDARD_TYPE . '[' INTEGER ']'
+
+    '['  shift, and go to state 51
+
+
+State 29
+
+   15 ARGUMENTS: '(' . PARAMETER_LIST ')'
+
+    ID  shift, and go to state 16
+
+    IDENTIFIER_LIST  go to state 52
+    PARAMETER_LIST   go to state 53
+
+
+State 30
+
+   13 SUBPROGRAM_HEAD: FUNCTION ID ARGUMENTS . ':' STANDARD_TYPE SEMICOLON
+
+    ':'  shift, and go to state 54
+
+
+State 31
+
+   14 SUBPROGRAM_HEAD: PROCEDURE ID ARGUMENTS . SEMICOLON
+
+    SEMICOLON  shift, and go to state 55
+
+
+State 32
+
+   43 VARIABLE: ID .
+   44         | ID . '[' EXPRESSION ']'
+   45 PROCEDURE_STATEMENT: ID . '(' ACTUAL_PARAMETER_EXPRESSION ')'
+
+    '['  shift, and go to state 56
+    '('  shift, and go to state 57
+
+    $default  reduce using rule 43 (VARIABLE)
+
+
+State 33
+
+   31 IF_STATEMENT: IF . EXPRESSION ':' STATEMENT
+   32             | IF . EXPRESSION ':' STATEMENT ELIF_STATEMENT
+   33             | IF . EXPRESSION ':' STATEMENT ELIF_STATEMENT ELSE ':' STATEMENT
+   34             | IF . EXPRESSION ':' STATEMENT ELSE ':' STATEMENT
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    VARIABLE             go to state 63
+    PROCEDURE_STATEMENT  go to state 64
+    EXPRESSION           go to state 65
+    SIMPLE_EXPRESSION    go to state 66
+    TERM                 go to state 67
+    FACTOR               go to state 68
+    SIGN                 go to state 69
+
+
+State 34
+
+   30 STATEMENT: NOP .
+
+    $default  reduce using rule 30 (STATEMENT)
+
+
+State 35
+
+   37 WHILE_STATEMENT: WHILE . EXPRESSION ':' STATEMENT
+   38                | WHILE . EXPRESSION ':' STATEMENT ELSE ':' STATEMENT
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    VARIABLE             go to state 63
+    PROCEDURE_STATEMENT  go to state 64
+    EXPRESSION           go to state 70
+    SIMPLE_EXPRESSION    go to state 66
+    TERM                 go to state 67
+    FACTOR               go to state 68
+    SIGN                 go to state 69
+
+
+State 36
+
+   39 FOR_STATEMENT: FOR . EXPRESSION IN EXPRESSION ':' STATEMENT
+   40              | FOR . EXPRESSION IN EXPRESSION ':' STATEMENT ELSE ':' STATEMENT
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    VARIABLE             go to state 63
+    PROCEDURE_STATEMENT  go to state 64
+    EXPRESSION           go to state 71
+    SIMPLE_EXPRESSION    go to state 66
+    TERM                 go to state 67
+    FACTOR               go to state 68
+    SIGN                 go to state 69
+
+
+State 37
+
+   29 STATEMENT: RETURN . EXPRESSION
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    VARIABLE             go to state 63
+    PROCEDURE_STATEMENT  go to state 64
+    EXPRESSION           go to state 72
+    SIMPLE_EXPRESSION    go to state 66
+    TERM                 go to state 67
+    FACTOR               go to state 68
+    SIGN                 go to state 69
+
+
+State 38
+
+   41 PRINT_STATEMENT: PRINT .
+   42                | PRINT . '(' EXPRESSION ')'
+
+    '('  shift, and go to state 73
+
+    $default  reduce using rule 41 (PRINT_STATEMENT)
+
+
+State 39
+
+   25 STATEMENT: COMPOUND_STATEMENT .
+
+    $default  reduce using rule 25 (STATEMENT)
+
+
+State 40
+
+   19 COMPOUND_STATEMENT: BODY_BEGIN STATEMENT_LIST . BODY_END
+
+    BODY_END  shift, and go to state 74
+
+
+State 41
+
+   20 STATEMENT_LIST: STATEMENT .
+   21               | STATEMENT . SEMICOLON STATEMENT_LIST
+
+    SEMICOLON  shift, and go to state 75
+
+    $default  reduce using rule 20 (STATEMENT_LIST)
+
+
+State 42
+
+   26 STATEMENT: IF_STATEMENT .
+
+    $default  reduce using rule 26 (STATEMENT)
+
+
+State 43
+
+   27 STATEMENT: WHILE_STATEMENT .
+
+    $default  reduce using rule 27 (STATEMENT)
+
+
+State 44
+
+   28 STATEMENT: FOR_STATEMENT .
+
+    $default  reduce using rule 28 (STATEMENT)
+
+
+State 45
+
+   23 STATEMENT: PRINT_STATEMENT .
+
+    $default  reduce using rule 23 (STATEMENT)
+
+
+State 46
+
+   22 STATEMENT: VARIABLE . '=' EXPRESSION
+
+    '='  shift, and go to state 76
+
+
+State 47
+
+   24 STATEMENT: PROCEDURE_STATEMENT .
+
+    $default  reduce using rule 24 (STATEMENT)
+
+
+State 48
+
+   12 SUBPROGRAM_DECLARATION: SUBPROGRAM_HEAD DECLARATIONS COMPOUND_STATEMENT .
+
+    $default  reduce using rule 12 (SUBPROGRAM_DECLARATION)
+
+
+State 49
+
+    5 IDENTIFIER_LIST: ID ',' IDENTIFIER_LIST .
+
+    $default  reduce using rule 5 (IDENTIFIER_LIST)
+
+
+State 50
+
+    2 DECLARATIONS: TYPE IDENTIFIER_LIST SEMICOLON DECLARATIONS .
+
+    $default  reduce using rule 2 (DECLARATIONS)
+
+
+State 51
+
+    7 TYPE: STANDARD_TYPE $@1 STANDARD_TYPE '[' . INTEGER ']'
+
+    INTEGER  shift, and go to state 77
+
+
+State 52
+
+   17 PARAMETER_LIST: IDENTIFIER_LIST . ':' TYPE
+   18               | IDENTIFIER_LIST . ':' TYPE SEMICOLON PARAMETER_LIST
+
+    ':'  shift, and go to state 78
+
+
+State 53
+
+   15 ARGUMENTS: '(' PARAMETER_LIST . ')'
+
+    ')'  shift, and go to state 79
+
+
+State 54
+
+   13 SUBPROGRAM_HEAD: FUNCTION ID ARGUMENTS ':' . STANDARD_TYPE SEMICOLON
+
+    "int"  shift, and go to state 6
+
+    STANDARD_TYPE  go to state 80
+
+
+State 55
+
+   14 SUBPROGRAM_HEAD: PROCEDURE ID ARGUMENTS SEMICOLON .
+
+    $default  reduce using rule 14 (SUBPROGRAM_HEAD)
+
+
+State 56
+
+   44 VARIABLE: ID '[' . EXPRESSION ']'
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    VARIABLE             go to state 63
+    PROCEDURE_STATEMENT  go to state 64
+    EXPRESSION           go to state 81
+    SIMPLE_EXPRESSION    go to state 66
+    TERM                 go to state 67
+    FACTOR               go to state 68
+    SIGN                 go to state 69
+
+
+State 57
+
+   45 PROCEDURE_STATEMENT: ID '(' . ACTUAL_PARAMETER_EXPRESSION ')'
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    $default  reduce using rule 47 (ACTUAL_PARAMETER_EXPRESSION)
+
+    VARIABLE                     go to state 63
+    PROCEDURE_STATEMENT          go to state 64
+    ACTUAL_PARAMETER_EXPRESSION  go to state 82
+    EXPRESSION_LIST              go to state 83
+    EXPRESSION                   go to state 84
+    SIMPLE_EXPRESSION            go to state 66
+    TERM                         go to state 67
+    FACTOR                       go to state 68
+    SIGN                         go to state 69
+
+
+State 58
+
+   56 FACTOR: INTEGER .
+
+    $default  reduce using rule 56 (FACTOR)
+
+
+State 59
+
+   57 FACTOR: FLOAT .
+
+    $default  reduce using rule 57 (FACTOR)
+
+
+State 60
+
+   62 SIGN: OP_PLUS .
+
+    $default  reduce using rule 62 (SIGN)
+
+
+State 61
+
+   63 SIGN: OP_MINUS .
+
+    $default  reduce using rule 63 (SIGN)
+
+
+State 62
+
+   60 FACTOR: OP_NOT . FACTOR
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    VARIABLE             go to state 63
+    PROCEDURE_STATEMENT  go to state 64
+    FACTOR               go to state 85
+    SIGN                 go to state 69
+
+
+State 63
+
+   58 FACTOR: VARIABLE .
+
+    $default  reduce using rule 58 (FACTOR)
+
+
+State 64
+
+   59 FACTOR: PROCEDURE_STATEMENT .
+
+    $default  reduce using rule 59 (FACTOR)
+
+
+State 65
+
+   31 IF_STATEMENT: IF EXPRESSION . ':' STATEMENT
+   32             | IF EXPRESSION . ':' STATEMENT ELIF_STATEMENT
+   33             | IF EXPRESSION . ':' STATEMENT ELIF_STATEMENT ELSE ':' STATEMENT
+   34             | IF EXPRESSION . ':' STATEMENT ELSE ':' STATEMENT
+
+    ':'  shift, and go to state 86
+
+
+State 66
+
+   50 EXPRESSION: SIMPLE_EXPRESSION .
+   51           | SIMPLE_EXPRESSION . RELOP SIMPLE_EXPRESSION
+
+    IN      shift, and go to state 87
+    OP_EQ   shift, and go to state 88
+    OP_NEQ  shift, and go to state 89
+    OP_LET  shift, and go to state 90
+    OP_GET  shift, and go to state 91
+    OP_LT   shift, and go to state 92
+    OP_GT   shift, and go to state 93
+
+    IN        [reduce using rule 50 (EXPRESSION)]
+    $default  reduce using rule 50 (EXPRESSION)
+
+    RELOP  go to state 94
+
+
+State 67
+
+   52 SIMPLE_EXPRESSION: TERM .
+   53                  | TERM . ADDOP SIMPLE_EXPRESSION
+
+    OP_PLUS   shift, and go to state 95
+    OP_MINUS  shift, and go to state 96
+
+    $default  reduce using rule 52 (SIMPLE_EXPRESSION)
+
+    ADDOP  go to state 97
+
+
+State 68
+
+   54 TERM: FACTOR .
+   55     | FACTOR . MULTOP TERM
+
+    OP_MUL  shift, and go to state 98
+    OP_DIV  shift, and go to state 99
+
+    $default  reduce using rule 54 (TERM)
+
+    MULTOP  go to state 100
+
+
+State 69
+
+   61 FACTOR: SIGN . FACTOR
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    VARIABLE             go to state 63
+    PROCEDURE_STATEMENT  go to state 64
+    FACTOR               go to state 101
+    SIGN                 go to state 69
+
+
+State 70
+
+   37 WHILE_STATEMENT: WHILE EXPRESSION . ':' STATEMENT
+   38                | WHILE EXPRESSION . ':' STATEMENT ELSE ':' STATEMENT
+
+    ':'  shift, and go to state 102
+
+
+State 71
+
+   39 FOR_STATEMENT: FOR EXPRESSION . IN EXPRESSION ':' STATEMENT
+   40              | FOR EXPRESSION . IN EXPRESSION ':' STATEMENT ELSE ':' STATEMENT
+
+    IN  shift, and go to state 103
+
+
+State 72
+
+   29 STATEMENT: RETURN EXPRESSION .
+
+    $default  reduce using rule 29 (STATEMENT)
+
+
+State 73
+
+   42 PRINT_STATEMENT: PRINT '(' . EXPRESSION ')'
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    VARIABLE             go to state 63
+    PROCEDURE_STATEMENT  go to state 64
+    EXPRESSION           go to state 104
+    SIMPLE_EXPRESSION    go to state 66
+    TERM                 go to state 67
+    FACTOR               go to state 68
+    SIGN                 go to state 69
+
+
+State 74
+
+   19 COMPOUND_STATEMENT: BODY_BEGIN STATEMENT_LIST BODY_END .
+
+    $default  reduce using rule 19 (COMPOUND_STATEMENT)
+
+
+State 75
+
+   21 STATEMENT_LIST: STATEMENT SEMICOLON . STATEMENT_LIST
+
+    ID          shift, and go to state 32
+    BODY_BEGIN  shift, and go to state 22
+    IF          shift, and go to state 33
+    NOP         shift, and go to state 34
+    WHILE       shift, and go to state 35
+    FOR         shift, and go to state 36
+    RETURN      shift, and go to state 37
+    PRINT       shift, and go to state 38
+
+    COMPOUND_STATEMENT   go to state 39
+    STATEMENT_LIST       go to state 105
+    STATEMENT            go to state 41
+    IF_STATEMENT         go to state 42
+    WHILE_STATEMENT      go to state 43
+    FOR_STATEMENT        go to state 44
+    PRINT_STATEMENT      go to state 45
+    VARIABLE             go to state 46
+    PROCEDURE_STATEMENT  go to state 47
+
+
+State 76
+
+   22 STATEMENT: VARIABLE '=' . EXPRESSION
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    VARIABLE             go to state 63
+    PROCEDURE_STATEMENT  go to state 64
+    EXPRESSION           go to state 106
+    SIMPLE_EXPRESSION    go to state 66
+    TERM                 go to state 67
+    FACTOR               go to state 68
+    SIGN                 go to state 69
+
+
+State 77
+
+    7 TYPE: STANDARD_TYPE $@1 STANDARD_TYPE '[' INTEGER . ']'
+
+    ']'  shift, and go to state 107
+
+
+State 78
+
+   17 PARAMETER_LIST: IDENTIFIER_LIST ':' . TYPE
+   18               | IDENTIFIER_LIST ':' . TYPE SEMICOLON PARAMETER_LIST
+
+    "int"  shift, and go to state 6
+
+    TYPE           go to state 108
+    STANDARD_TYPE  go to state 9
+
+
+State 79
+
+   15 ARGUMENTS: '(' PARAMETER_LIST ')' .
+
+    $default  reduce using rule 15 (ARGUMENTS)
+
+
+State 80
+
+   13 SUBPROGRAM_HEAD: FUNCTION ID ARGUMENTS ':' STANDARD_TYPE . SEMICOLON
+
+    SEMICOLON  shift, and go to state 109
+
+
+State 81
+
+   44 VARIABLE: ID '[' EXPRESSION . ']'
+
+    ']'  shift, and go to state 110
+
+
+State 82
+
+   45 PROCEDURE_STATEMENT: ID '(' ACTUAL_PARAMETER_EXPRESSION . ')'
+
+    ')'  shift, and go to state 111
+
+
+State 83
+
+   46 ACTUAL_PARAMETER_EXPRESSION: EXPRESSION_LIST .
+
+    $default  reduce using rule 46 (ACTUAL_PARAMETER_EXPRESSION)
+
+
+State 84
+
+   48 EXPRESSION_LIST: EXPRESSION .
+   49                | EXPRESSION . ',' EXPRESSION_LIST
+
+    ','  shift, and go to state 112
+
+    $default  reduce using rule 48 (EXPRESSION_LIST)
+
+
+State 85
+
+   60 FACTOR: OP_NOT FACTOR .
+
+    $default  reduce using rule 60 (FACTOR)
+
+
+State 86
+
+   31 IF_STATEMENT: IF EXPRESSION ':' . STATEMENT
+   32             | IF EXPRESSION ':' . STATEMENT ELIF_STATEMENT
+   33             | IF EXPRESSION ':' . STATEMENT ELIF_STATEMENT ELSE ':' STATEMENT
+   34             | IF EXPRESSION ':' . STATEMENT ELSE ':' STATEMENT
+
+    ID          shift, and go to state 32
+    BODY_BEGIN  shift, and go to state 22
+    IF          shift, and go to state 33
+    NOP         shift, and go to state 34
+    WHILE       shift, and go to state 35
+    FOR         shift, and go to state 36
+    RETURN      shift, and go to state 37
+    PRINT       shift, and go to state 38
+
+    COMPOUND_STATEMENT   go to state 39
+    STATEMENT            go to state 113
+    IF_STATEMENT         go to state 42
+    WHILE_STATEMENT      go to state 43
+    FOR_STATEMENT        go to state 44
+    PRINT_STATEMENT      go to state 45
+    VARIABLE             go to state 46
+    PROCEDURE_STATEMENT  go to state 47
+
+
+State 87
+
+   70 RELOP: IN .
+
+    $default  reduce using rule 70 (RELOP)
+
+
+State 88
+
+   68 RELOP: OP_EQ .
+
+    $default  reduce using rule 68 (RELOP)
+
+
+State 89
+
+   69 RELOP: OP_NEQ .
+
+    $default  reduce using rule 69 (RELOP)
+
+
+State 90
+
+   64 RELOP: OP_LET .
+
+    $default  reduce using rule 64 (RELOP)
+
+
+State 91
+
+   65 RELOP: OP_GET .
+
+    $default  reduce using rule 65 (RELOP)
+
+
+State 92
+
+   66 RELOP: OP_LT .
+
+    $default  reduce using rule 66 (RELOP)
+
+
+State 93
+
+   67 RELOP: OP_GT .
+
+    $default  reduce using rule 67 (RELOP)
+
+
+State 94
+
+   51 EXPRESSION: SIMPLE_EXPRESSION RELOP . SIMPLE_EXPRESSION
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    VARIABLE             go to state 63
+    PROCEDURE_STATEMENT  go to state 64
+    SIMPLE_EXPRESSION    go to state 114
+    TERM                 go to state 67
+    FACTOR               go to state 68
+    SIGN                 go to state 69
+
+
+State 95
+
+   71 ADDOP: OP_PLUS .
+
+    $default  reduce using rule 71 (ADDOP)
+
+
+State 96
+
+   72 ADDOP: OP_MINUS .
+
+    $default  reduce using rule 72 (ADDOP)
+
+
+State 97
+
+   53 SIMPLE_EXPRESSION: TERM ADDOP . SIMPLE_EXPRESSION
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    VARIABLE             go to state 63
+    PROCEDURE_STATEMENT  go to state 64
+    SIMPLE_EXPRESSION    go to state 115
+    TERM                 go to state 67
+    FACTOR               go to state 68
+    SIGN                 go to state 69
+
+
+State 98
+
+   73 MULTOP: OP_MUL .
+
+    $default  reduce using rule 73 (MULTOP)
+
+
+State 99
+
+   74 MULTOP: OP_DIV .
+
+    $default  reduce using rule 74 (MULTOP)
+
+
+State 100
+
+   55 TERM: FACTOR MULTOP . TERM
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    VARIABLE             go to state 63
+    PROCEDURE_STATEMENT  go to state 64
+    TERM                 go to state 116
+    FACTOR               go to state 68
+    SIGN                 go to state 69
+
+
+State 101
+
+   61 FACTOR: SIGN FACTOR .
+
+    $default  reduce using rule 61 (FACTOR)
+
+
+State 102
+
+   37 WHILE_STATEMENT: WHILE EXPRESSION ':' . STATEMENT
+   38                | WHILE EXPRESSION ':' . STATEMENT ELSE ':' STATEMENT
+
+    ID          shift, and go to state 32
+    BODY_BEGIN  shift, and go to state 22
+    IF          shift, and go to state 33
+    NOP         shift, and go to state 34
+    WHILE       shift, and go to state 35
+    FOR         shift, and go to state 36
+    RETURN      shift, and go to state 37
+    PRINT       shift, and go to state 38
+
+    COMPOUND_STATEMENT   go to state 39
+    STATEMENT            go to state 117
+    IF_STATEMENT         go to state 42
+    WHILE_STATEMENT      go to state 43
+    FOR_STATEMENT        go to state 44
+    PRINT_STATEMENT      go to state 45
+    VARIABLE             go to state 46
+    PROCEDURE_STATEMENT  go to state 47
+
+
+State 103
+
+   39 FOR_STATEMENT: FOR EXPRESSION IN . EXPRESSION ':' STATEMENT
+   40              | FOR EXPRESSION IN . EXPRESSION ':' STATEMENT ELSE ':' STATEMENT
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    VARIABLE             go to state 63
+    PROCEDURE_STATEMENT  go to state 64
+    EXPRESSION           go to state 118
+    SIMPLE_EXPRESSION    go to state 66
+    TERM                 go to state 67
+    FACTOR               go to state 68
+    SIGN                 go to state 69
+
+
+State 104
+
+   42 PRINT_STATEMENT: PRINT '(' EXPRESSION . ')'
+
+    ')'  shift, and go to state 119
+
+
+State 105
+
+   21 STATEMENT_LIST: STATEMENT SEMICOLON STATEMENT_LIST .
+
+    $default  reduce using rule 21 (STATEMENT_LIST)
+
+
+State 106
+
+   22 STATEMENT: VARIABLE '=' EXPRESSION .
+
+    $default  reduce using rule 22 (STATEMENT)
+
+
+State 107
+
+    7 TYPE: STANDARD_TYPE $@1 STANDARD_TYPE '[' INTEGER ']' .
+
+    $default  reduce using rule 7 (TYPE)
+
+
+State 108
+
+   17 PARAMETER_LIST: IDENTIFIER_LIST ':' TYPE .
+   18               | IDENTIFIER_LIST ':' TYPE . SEMICOLON PARAMETER_LIST
+
+    SEMICOLON  shift, and go to state 120
+
+    $default  reduce using rule 17 (PARAMETER_LIST)
+
+
+State 109
+
+   13 SUBPROGRAM_HEAD: FUNCTION ID ARGUMENTS ':' STANDARD_TYPE SEMICOLON .
+
+    $default  reduce using rule 13 (SUBPROGRAM_HEAD)
+
+
+State 110
+
+   44 VARIABLE: ID '[' EXPRESSION ']' .
+
+    $default  reduce using rule 44 (VARIABLE)
+
+
+State 111
+
+   45 PROCEDURE_STATEMENT: ID '(' ACTUAL_PARAMETER_EXPRESSION ')' .
+
+    $default  reduce using rule 45 (PROCEDURE_STATEMENT)
+
+
+State 112
+
+   49 EXPRESSION_LIST: EXPRESSION ',' . EXPRESSION_LIST
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    VARIABLE             go to state 63
+    PROCEDURE_STATEMENT  go to state 64
+    EXPRESSION_LIST      go to state 121
+    EXPRESSION           go to state 84
+    SIMPLE_EXPRESSION    go to state 66
+    TERM                 go to state 67
+    FACTOR               go to state 68
+    SIGN                 go to state 69
+
+
+State 113
+
+   31 IF_STATEMENT: IF EXPRESSION ':' STATEMENT .
+   32             | IF EXPRESSION ':' STATEMENT . ELIF_STATEMENT
+   33             | IF EXPRESSION ':' STATEMENT . ELIF_STATEMENT ELSE ':' STATEMENT
+   34             | IF EXPRESSION ':' STATEMENT . ELSE ':' STATEMENT
+
+    ELIF  shift, and go to state 122
+    ELSE  shift, and go to state 123
+
+    ELIF      [reduce using rule 31 (IF_STATEMENT)]
+    ELSE      [reduce using rule 31 (IF_STATEMENT)]
+    $default  reduce using rule 31 (IF_STATEMENT)
+
+    ELIF_STATEMENT  go to state 124
+
+
+State 114
+
+   51 EXPRESSION: SIMPLE_EXPRESSION RELOP SIMPLE_EXPRESSION .
+
+    $default  reduce using rule 51 (EXPRESSION)
+
+
+State 115
+
+   53 SIMPLE_EXPRESSION: TERM ADDOP SIMPLE_EXPRESSION .
+
+    $default  reduce using rule 53 (SIMPLE_EXPRESSION)
+
+
+State 116
+
+   55 TERM: FACTOR MULTOP TERM .
+
+    $default  reduce using rule 55 (TERM)
+
+
+State 117
+
+   37 WHILE_STATEMENT: WHILE EXPRESSION ':' STATEMENT .
+   38                | WHILE EXPRESSION ':' STATEMENT . ELSE ':' STATEMENT
+
+    ELSE  shift, and go to state 125
+
+    ELSE      [reduce using rule 37 (WHILE_STATEMENT)]
+    $default  reduce using rule 37 (WHILE_STATEMENT)
+
+
+State 118
+
+   39 FOR_STATEMENT: FOR EXPRESSION IN EXPRESSION . ':' STATEMENT
+   40              | FOR EXPRESSION IN EXPRESSION . ':' STATEMENT ELSE ':' STATEMENT
+
+    ':'  shift, and go to state 126
+
+
+State 119
+
+   42 PRINT_STATEMENT: PRINT '(' EXPRESSION ')' .
+
+    $default  reduce using rule 42 (PRINT_STATEMENT)
+
+
+State 120
+
+   18 PARAMETER_LIST: IDENTIFIER_LIST ':' TYPE SEMICOLON . PARAMETER_LIST
+
+    ID  shift, and go to state 16
+
+    IDENTIFIER_LIST  go to state 52
+    PARAMETER_LIST   go to state 127
+
+
+State 121
+
+   49 EXPRESSION_LIST: EXPRESSION ',' EXPRESSION_LIST .
+
+    $default  reduce using rule 49 (EXPRESSION_LIST)
+
+
+State 122
+
+   35 ELIF_STATEMENT: ELIF . EXPRESSION ':' STATEMENT
+   36               | ELIF . EXPRESSION ':' STATEMENT ELIF_STATEMENT
+
+    ID        shift, and go to state 32
+    INTEGER   shift, and go to state 58
+    FLOAT     shift, and go to state 59
+    OP_PLUS   shift, and go to state 60
+    OP_MINUS  shift, and go to state 61
+    OP_NOT    shift, and go to state 62
+
+    VARIABLE             go to state 63
+    PROCEDURE_STATEMENT  go to state 64
+    EXPRESSION           go to state 128
+    SIMPLE_EXPRESSION    go to state 66
+    TERM                 go to state 67
+    FACTOR               go to state 68
+    SIGN                 go to state 69
+
+
+State 123
+
+   34 IF_STATEMENT: IF EXPRESSION ':' STATEMENT ELSE . ':' STATEMENT
+
+    ':'  shift, and go to state 129
+
+
+State 124
+
+   32 IF_STATEMENT: IF EXPRESSION ':' STATEMENT ELIF_STATEMENT .
+   33             | IF EXPRESSION ':' STATEMENT ELIF_STATEMENT . ELSE ':' STATEMENT
+
+    ELSE  shift, and go to state 130
+
+    ELSE      [reduce using rule 32 (IF_STATEMENT)]
+    $default  reduce using rule 32 (IF_STATEMENT)
+
+
+State 125
+
+   38 WHILE_STATEMENT: WHILE EXPRESSION ':' STATEMENT ELSE . ':' STATEMENT
+
+    ':'  shift, and go to state 131
+
+
+State 126
+
+   39 FOR_STATEMENT: FOR EXPRESSION IN EXPRESSION ':' . STATEMENT
+   40              | FOR EXPRESSION IN EXPRESSION ':' . STATEMENT ELSE ':' STATEMENT
+
+    ID          shift, and go to state 32
+    BODY_BEGIN  shift, and go to state 22
+    IF          shift, and go to state 33
+    NOP         shift, and go to state 34
+    WHILE       shift, and go to state 35
+    FOR         shift, and go to state 36
+    RETURN      shift, and go to state 37
+    PRINT       shift, and go to state 38
+
+    COMPOUND_STATEMENT   go to state 39
+    STATEMENT            go to state 132
+    IF_STATEMENT         go to state 42
+    WHILE_STATEMENT      go to state 43
+    FOR_STATEMENT        go to state 44
+    PRINT_STATEMENT      go to state 45
+    VARIABLE             go to state 46
+    PROCEDURE_STATEMENT  go to state 47
+
+
+State 127
+
+   18 PARAMETER_LIST: IDENTIFIER_LIST ':' TYPE SEMICOLON PARAMETER_LIST .
+
+    $default  reduce using rule 18 (PARAMETER_LIST)
+
+
+State 128
+
+   35 ELIF_STATEMENT: ELIF EXPRESSION . ':' STATEMENT
+   36               | ELIF EXPRESSION . ':' STATEMENT ELIF_STATEMENT
+
+    ':'  shift, and go to state 133
+
+
+State 129
+
+   34 IF_STATEMENT: IF EXPRESSION ':' STATEMENT ELSE ':' . STATEMENT
+
+    ID          shift, and go to state 32
+    BODY_BEGIN  shift, and go to state 22
+    IF          shift, and go to state 33
+    NOP         shift, and go to state 34
+    WHILE       shift, and go to state 35
+    FOR         shift, and go to state 36
+    RETURN      shift, and go to state 37
+    PRINT       shift, and go to state 38
+
+    COMPOUND_STATEMENT   go to state 39
+    STATEMENT            go to state 134
+    IF_STATEMENT         go to state 42
+    WHILE_STATEMENT      go to state 43
+    FOR_STATEMENT        go to state 44
+    PRINT_STATEMENT      go to state 45
+    VARIABLE             go to state 46
+    PROCEDURE_STATEMENT  go to state 47
+
+
+State 130
+
+   33 IF_STATEMENT: IF EXPRESSION ':' STATEMENT ELIF_STATEMENT ELSE . ':' STATEMENT
+
+    ':'  shift, and go to state 135
+
+
+State 131
+
+   38 WHILE_STATEMENT: WHILE EXPRESSION ':' STATEMENT ELSE ':' . STATEMENT
+
+    ID          shift, and go to state 32
+    BODY_BEGIN  shift, and go to state 22
+    IF          shift, and go to state 33
+    NOP         shift, and go to state 34
+    WHILE       shift, and go to state 35
+    FOR         shift, and go to state 36
+    RETURN      shift, and go to state 37
+    PRINT       shift, and go to state 38
+
+    COMPOUND_STATEMENT   go to state 39
+    STATEMENT            go to state 136
+    IF_STATEMENT         go to state 42
+    WHILE_STATEMENT      go to state 43
+    FOR_STATEMENT        go to state 44
+    PRINT_STATEMENT      go to state 45
+    VARIABLE             go to state 46
+    PROCEDURE_STATEMENT  go to state 47
+
+
+State 132
+
+   39 FOR_STATEMENT: FOR EXPRESSION IN EXPRESSION ':' STATEMENT .
+   40              | FOR EXPRESSION IN EXPRESSION ':' STATEMENT . ELSE ':' STATEMENT
+
+    ELSE  shift, and go to state 137
+
+    ELSE      [reduce using rule 39 (FOR_STATEMENT)]
+    $default  reduce using rule 39 (FOR_STATEMENT)
+
+
+State 133
+
+   35 ELIF_STATEMENT: ELIF EXPRESSION ':' . STATEMENT
+   36               | ELIF EXPRESSION ':' . STATEMENT ELIF_STATEMENT
+
+    ID          shift, and go to state 32
+    BODY_BEGIN  shift, and go to state 22
+    IF          shift, and go to state 33
+    NOP         shift, and go to state 34
+    WHILE       shift, and go to state 35
+    FOR         shift, and go to state 36
+    RETURN      shift, and go to state 37
+    PRINT       shift, and go to state 38
+
+    COMPOUND_STATEMENT   go to state 39
+    STATEMENT            go to state 138
+    IF_STATEMENT         go to state 42
+    WHILE_STATEMENT      go to state 43
+    FOR_STATEMENT        go to state 44
+    PRINT_STATEMENT      go to state 45
+    VARIABLE             go to state 46
+    PROCEDURE_STATEMENT  go to state 47
+
+
+State 134
+
+   34 IF_STATEMENT: IF EXPRESSION ':' STATEMENT ELSE ':' STATEMENT .
+
+    $default  reduce using rule 34 (IF_STATEMENT)
+
+
+State 135
+
+   33 IF_STATEMENT: IF EXPRESSION ':' STATEMENT ELIF_STATEMENT ELSE ':' . STATEMENT
+
+    ID          shift, and go to state 32
+    BODY_BEGIN  shift, and go to state 22
+    IF          shift, and go to state 33
+    NOP         shift, and go to state 34
+    WHILE       shift, and go to state 35
+    FOR         shift, and go to state 36
+    RETURN      shift, and go to state 37
+    PRINT       shift, and go to state 38
+
+    COMPOUND_STATEMENT   go to state 39
+    STATEMENT            go to state 139
+    IF_STATEMENT         go to state 42
+    WHILE_STATEMENT      go to state 43
+    FOR_STATEMENT        go to state 44
+    PRINT_STATEMENT      go to state 45
+    VARIABLE             go to state 46
+    PROCEDURE_STATEMENT  go to state 47
+
+
+State 136
+
+   38 WHILE_STATEMENT: WHILE EXPRESSION ':' STATEMENT ELSE ':' STATEMENT .
+
+    $default  reduce using rule 38 (WHILE_STATEMENT)
+
+
+State 137
+
+   40 FOR_STATEMENT: FOR EXPRESSION IN EXPRESSION ':' STATEMENT ELSE . ':' STATEMENT
+
+    ':'  shift, and go to state 140
+
+
+State 138
+
+   35 ELIF_STATEMENT: ELIF EXPRESSION ':' STATEMENT .
+   36               | ELIF EXPRESSION ':' STATEMENT . ELIF_STATEMENT
+
+    ELIF  shift, and go to state 122
+
+    ELIF      [reduce using rule 35 (ELIF_STATEMENT)]
+    $default  reduce using rule 35 (ELIF_STATEMENT)
+
+    ELIF_STATEMENT  go to state 141
+
+
+State 139
+
+   33 IF_STATEMENT: IF EXPRESSION ':' STATEMENT ELIF_STATEMENT ELSE ':' STATEMENT .
+
+    $default  reduce using rule 33 (IF_STATEMENT)
+
+
+State 140
+
+   40 FOR_STATEMENT: FOR EXPRESSION IN EXPRESSION ':' STATEMENT ELSE ':' . STATEMENT
+
+    ID          shift, and go to state 32
+    BODY_BEGIN  shift, and go to state 22
+    IF          shift, and go to state 33
+    NOP         shift, and go to state 34
+    WHILE       shift, and go to state 35
+    FOR         shift, and go to state 36
+    RETURN      shift, and go to state 37
+    PRINT       shift, and go to state 38
+
+    COMPOUND_STATEMENT   go to state 39
+    STATEMENT            go to state 142
+    IF_STATEMENT         go to state 42
+    WHILE_STATEMENT      go to state 43
+    FOR_STATEMENT        go to state 44
+    PRINT_STATEMENT      go to state 45
+    VARIABLE             go to state 46
+    PROCEDURE_STATEMENT  go to state 47
+
+
+State 141
+
+   36 ELIF_STATEMENT: ELIF EXPRESSION ':' STATEMENT ELIF_STATEMENT .
+
+    $default  reduce using rule 36 (ELIF_STATEMENT)
+
+
+State 142
+
+   40 FOR_STATEMENT: FOR EXPRESSION IN EXPRESSION ':' STATEMENT ELSE ':' STATEMENT .
+
+    $default  reduce using rule 40 (FOR_STATEMENT)

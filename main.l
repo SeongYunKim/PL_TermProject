@@ -24,10 +24,12 @@ id		    {letter}({letter}|{digit})*
 "begin"		{return (BODY_BEGIN);}
 "end"		{return (BODY_END);}
 "if"		{return (IF);}
+"elif"      {return (ELIF);}
 "then"		{return (THEN);}
 "else"		{return (ELSE);}
 "nop"		{return (NOP);}
 "while"		{return (WHILE);}
+"for"       {return (FOR);}
 "return"	{return (RETURN);}
 "print"		{return (PRINT);}
 "in"		{return (IN);}

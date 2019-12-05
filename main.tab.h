@@ -61,24 +61,26 @@ extern int yydebug;
     BODY_BEGIN = 267,
     BODY_END = 268,
     IF = 269,
-    THEN = 270,
-    ELSE = 271,
-    NOP = 272,
-    WHILE = 273,
-    RETURN = 274,
-    PRINT = 275,
-    IN = 276,
-    OP_PLUS = 277,
-    OP_MINUS = 278,
-    OP_MUL = 279,
-    OP_DIV = 280,
-    OP_EQ = 281,
-    OP_NEQ = 282,
-    OP_LET = 283,
-    OP_GET = 284,
-    OP_LT = 285,
-    OP_GT = 286,
-    OP_NOT = 287
+    ELIF = 270,
+    THEN = 271,
+    ELSE = 272,
+    NOP = 273,
+    WHILE = 274,
+    FOR = 275,
+    RETURN = 276,
+    PRINT = 277,
+    IN = 278,
+    OP_PLUS = 279,
+    OP_MINUS = 280,
+    OP_MUL = 281,
+    OP_DIV = 282,
+    OP_EQ = 283,
+    OP_NEQ = 284,
+    OP_LET = 285,
+    OP_GET = 286,
+    OP_LT = 287,
+    OP_GT = 288,
+    OP_NOT = 289
   };
 #endif
 
@@ -87,13 +89,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 51 "main.y" /* yacc.c:1921  */
+#line 82 "main.y" /* yacc.c:1921  */
 
 	char name[1000];
 	int intData;
 	float floatData;
 
-#line 97 "main.tab.h" /* yacc.c:1921  */
+#line 99 "main.tab.h" /* yacc.c:1921  */
 };
 
 typedef union YYSTYPE YYSTYPE;
