@@ -32,18 +32,20 @@ Terminals unused in grammar
 
 문법
 
-    0 $accept: ASSIGNMENT $end
+    0 $accept: PROG $end
 
-    1 ASSIGNMENT: ID '=' INTEGER
+    1 PROG: ASSIGNMENT ASSIGNMENT
+
+    2 ASSIGNMENT: ID '=' INTEGER
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'=' (61) 1
+'=' (61) 2
 error (256)
-ID <name> (258) 1
-INTEGER <intData> (259) 1
+ID <name> (258) 2
+INTEGER <intData> (259) 2
 FLOAT <floatData> (260)
 SEMICOLON (261)
 "int" (262)
@@ -78,49 +80,68 @@ Nonterminals, with rules where they appear
 
 $accept (34)
     on left: 0
-ASSIGNMENT <name> (35)
+PROG <name> (35)
     on left: 1, on right: 0
+ASSIGNMENT <name> (36)
+    on left: 2, on right: 1
 
 
 State 0
 
-    0 $accept: . ASSIGNMENT $end
+    0 $accept: . PROG $end
 
     ID  shift, and go to state 1
 
-    ASSIGNMENT  go to state 2
+    PROG        go to state 2
+    ASSIGNMENT  go to state 3
 
 
 State 1
 
-    1 ASSIGNMENT: ID . '=' INTEGER
+    2 ASSIGNMENT: ID . '=' INTEGER
 
-    '='  shift, and go to state 3
+    '='  shift, and go to state 4
 
 
 State 2
 
-    0 $accept: ASSIGNMENT . $end
+    0 $accept: PROG . $end
 
-    $end  shift, and go to state 4
+    $end  shift, and go to state 5
 
 
 State 3
 
-    1 ASSIGNMENT: ID '=' . INTEGER
+    1 PROG: ASSIGNMENT . ASSIGNMENT
 
-    INTEGER  shift, and go to state 5
+    ID  shift, and go to state 1
+
+    ASSIGNMENT  go to state 6
 
 
 State 4
 
-    0 $accept: ASSIGNMENT $end .
+    2 ASSIGNMENT: ID '=' . INTEGER
 
-    $default  accept
+    INTEGER  shift, and go to state 7
 
 
 State 5
 
-    1 ASSIGNMENT: ID '=' INTEGER .
+    0 $accept: PROG $end .
 
-    $default  reduce using rule 1 (ASSIGNMENT)
+    $default  accept
+
+
+State 6
+
+    1 PROG: ASSIGNMENT ASSIGNMENT .
+
+    $default  reduce using rule 1 (PROG)
+
+
+State 7
+
+    2 ASSIGNMENT: ID '=' INTEGER .
+
+    $default  reduce using rule 2 (ASSIGNMENT)

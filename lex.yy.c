@@ -968,7 +968,7 @@ case 30:
 /* rule 30 can match eol */
 YY_RULE_SETUP
 #line 51 "main.l"
-{;}
+{}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP

@@ -87,7 +87,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 46 "main.y" /* yacc.c:1921  */
+#line 51 "main.y" /* yacc.c:1921  */
 
 	char name[1000];
 	int intData;

@@ -69,6 +69,8 @@
 #line 1 "main.y" /* yacc.c:337  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 int yylex();
 int yyerror(char *s);
@@ -76,7 +78,9 @@ extern int yylineno;
 extern int yylex();
 extern char* yytext;
 
-#line 80 "main.tab.c" /* yacc.c:337  */
+FILE *yyin;
+
+#line 84 "main.tab.c" /* yacc.c:337  */
 # ifndef YY_NULLPTR
 #  if defined __cplusplus
 #   if 201103L <= __cplusplus
@@ -152,13 +156,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 46 "main.y" /* yacc.c:352  */
+#line 51 "main.y" /* yacc.c:352  */
 
 	char name[1000];
 	int intData;
 	float floatData;
 
-#line 162 "main.tab.c" /* yacc.c:352  */
+#line 166 "main.tab.c" /* yacc.c:352  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -404,18 +408,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  4
+#define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   3
+#define YYLAST   4
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  34
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  2
+#define YYNNTS  3
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  2
+#define YYNRULES  3
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  6
+#define YYNSTATES  8
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   287
@@ -464,7 +468,7 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    54,    54
+       0,    59,    59,    63
 };
 #endif
 
@@ -478,7 +482,7 @@ static const char *const yytname[] =
   "\"begin\"", "\"end\"", "\"if\"", "\"then\"", "\"else\"", "\"nop\"",
   "\"while\"", "\"return\"", "\"print\"", "\"in\"", "\"+\"", "\"-\"",
   "\"*\"", "\"/\"", "\"==\"", "\"!=\"", "\"<=\"", "\">=\"", "\"<\"",
-  "\">\"", "\"!\"", "'='", "$accept", "ASSIGNMENT", YY_NULLPTR
+  "\">\"", "\"!\"", "'='", "$accept", "PROG", "ASSIGNMENT", YY_NULLPTR
 };
 #endif
 
@@ -508,7 +512,7 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -3,   -32,     2,    -1,   -33,   -33
+      -3,   -32,     2,    -3,    -1,   -33,   -33,   -33
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -516,19 +520,19 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     0,     0,     0,     1,     2
+       0,     0,     0,     0,     0,     1,     2,     3
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -33,   -33
+     -33,   -33,     1
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2
+      -1,     2,     3
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -536,31 +540,31 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-       1,     3,     4,     5
+       1,     4,     5,     7,     6
 };
 
 static const yytype_uint8 yycheck[] =
 {
-       3,    33,     0,     4
+       3,    33,     0,     4,     3
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,    35,    33,     0,     4
+       0,     3,    35,    36,    33,     0,    36,     4
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    34,    35
+       0,    34,    35,    36
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     3
+       0,     2,     2,     3
 };
 
 
@@ -1246,13 +1250,19 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 54 "main.y" /* yacc.c:1652  */
+#line 59 "main.y" /* yacc.c:1652  */
+    {printf("PROG\n");}
+#line 1256 "main.tab.c" /* yacc.c:1652  */
+    break;
+
+  case 3:
+#line 63 "main.y" /* yacc.c:1652  */
     {printf("Assignment\n");}
-#line 1252 "main.tab.c" /* yacc.c:1652  */
+#line 1262 "main.tab.c" /* yacc.c:1652  */
     break;
 
 
-#line 1256 "main.tab.c" /* yacc.c:1652  */
+#line 1266 "main.tab.c" /* yacc.c:1652  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1483,15 +1493,32 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 55 "main.y" /* yacc.c:1918  */
+#line 64 "main.y" /* yacc.c:1918  */
 
 
 int yyerror(char *s){
-	printf("Syntax Error on line :%s\n", s);
+	printf("Syntax Error on line %d : %s\n", yylineno, s);
 	return 0;
 }
 
-int main(){
-	yyparse();
+int main(int argc, char *argv[]){
+    if(argc == 2){
+        yyin= fopen(argv[1], "r");
+        if(yyin){
+            int result = yyparse();
+            if(result == 0){
+                printf("Compile Success\n");
+            } else if(result == 1){
+                printf("Compile Fail\n");
+            }
+            fclose(yyin);
+        }
+        else {
+            printf("[Error] Can't open file \"%s\"\n", argv[1]);
+        }
+    }
+    else {
+        printf("[Error] Incorrect input argument\n");
+    }
 	return 0;
 }

@@ -48,7 +48,7 @@ id		    {letter}({letter}|{digit})*
 {float}		{yylval.floatData = atof(yytext); return (FLOAT);}
 {id}		{sscanf(yytext, "%s", yylval.name); return (ID);}
 
-[ \r\n\t]+	{;}
+[ \r\n\t]+	{}
 ";"		    {return (SEMICOLON);}
 .			{return *yytext;}
 %%
