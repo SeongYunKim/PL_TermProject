@@ -103,12 +103,12 @@ IDENTIFIER_LIST:
 
 TYPE:
     STANDARD_TYPE {}
-    STANDARD_TYPE '[' INTEGER ']' {}
+    | STANDARD_TYPE '[' INTEGER ']' {}
 ;
 
 STANDARD_TYPE:
     TYPE_INT {}
-    TYPE_FLOAT {}
+    | TYPE_FLOAT {}
 ;
 
 SUBPROGRAM_DECLARATIONS:
@@ -154,6 +154,7 @@ STATEMENT:
     | FOR_STATEMENT {}
     | RETURN EXPRESSION {}
     | NOP {}
+    //| {}
 ;
 
 IF_STATEMENT:
@@ -238,7 +239,7 @@ RELOP:
     | OP_GT {}
     | OP_EQ {}
     | OP_NEQ {}
-    | IN {}             //??
+    //| IN {} 수정
 ;
 
 ADDOP:
