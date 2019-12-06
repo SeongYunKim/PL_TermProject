@@ -71,6 +71,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "list.h"
 
 int yylex();
 int yyerror(char *s);
@@ -79,8 +80,10 @@ extern int yylex();
 extern char* yytext;
 
 FILE *yyin;
+int errorNum = 0;
+ErrorNode* errorList = NULL;
 
-#line 84 "main.tab.c" /* yacc.c:337  */
+#line 87 "main.tab.c" /* yacc.c:337  */
 # ifndef YY_NULLPTR
 #  if defined __cplusplus
 #   if 201103L <= __cplusplus
@@ -158,13 +161,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 82 "main.y" /* yacc.c:352  */
+#line 85 "main.y" /* yacc.c:352  */
 
 	char name[1000];
 	int intData;
 	float floatData;
 
-#line 168 "main.tab.c" /* yacc.c:352  */
+#line 171 "main.tab.c" /* yacc.c:352  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -470,14 +473,14 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    91,    91,    95,    96,   100,   101,   105,   106,   110,
-     111,   115,   116,   120,   124,   125,   129,   130,   134,   135,
-     139,   143,   144,   148,   149,   150,   151,   152,   153,   154,
-     155,   156,   161,   162,   163,   164,   168,   169,   173,   174,
-     178,   179,   183,   184,   188,   189,   193,   197,   198,   202,
-     203,   207,   208,   212,   213,   217,   218,   222,   223,   224,
-     225,   226,   227,   231,   232,   236,   237,   238,   239,   240,
-     241,   246,   247,   251,   252
+       0,    94,    94,    98,    99,   103,   104,   108,   109,   113,
+     114,   118,   119,   123,   127,   128,   132,   133,   137,   138,
+     142,   146,   147,   151,   152,   153,   154,   155,   156,   157,
+     158,   159,   164,   165,   166,   167,   171,   172,   176,   177,
+     181,   182,   186,   187,   191,   192,   196,   200,   201,   205,
+     206,   210,   211,   215,   216,   220,   221,   225,   226,   227,
+     228,   229,   230,   234,   235,   239,   240,   241,   242,   243,
+     244,   249,   250,   254,   255
 };
 #endif
 
@@ -1353,439 +1356,439 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 91 "main.y" /* yacc.c:1652  */
+#line 94 "main.y" /* yacc.c:1652  */
     {}
-#line 1359 "main.tab.c" /* yacc.c:1652  */
+#line 1362 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 3:
-#line 95 "main.y" /* yacc.c:1652  */
+#line 98 "main.y" /* yacc.c:1652  */
     {}
-#line 1365 "main.tab.c" /* yacc.c:1652  */
+#line 1368 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 4:
-#line 96 "main.y" /* yacc.c:1652  */
+#line 99 "main.y" /* yacc.c:1652  */
     {}
-#line 1371 "main.tab.c" /* yacc.c:1652  */
+#line 1374 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 5:
-#line 100 "main.y" /* yacc.c:1652  */
+#line 103 "main.y" /* yacc.c:1652  */
     {}
-#line 1377 "main.tab.c" /* yacc.c:1652  */
+#line 1380 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 6:
-#line 101 "main.y" /* yacc.c:1652  */
+#line 104 "main.y" /* yacc.c:1652  */
     {}
-#line 1383 "main.tab.c" /* yacc.c:1652  */
+#line 1386 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 7:
-#line 105 "main.y" /* yacc.c:1652  */
+#line 108 "main.y" /* yacc.c:1652  */
     {}
-#line 1389 "main.tab.c" /* yacc.c:1652  */
+#line 1392 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 8:
-#line 106 "main.y" /* yacc.c:1652  */
+#line 109 "main.y" /* yacc.c:1652  */
     {}
-#line 1395 "main.tab.c" /* yacc.c:1652  */
+#line 1398 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 9:
-#line 110 "main.y" /* yacc.c:1652  */
+#line 113 "main.y" /* yacc.c:1652  */
     {}
-#line 1401 "main.tab.c" /* yacc.c:1652  */
+#line 1404 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 10:
-#line 111 "main.y" /* yacc.c:1652  */
+#line 114 "main.y" /* yacc.c:1652  */
     {}
-#line 1407 "main.tab.c" /* yacc.c:1652  */
+#line 1410 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 11:
-#line 115 "main.y" /* yacc.c:1652  */
+#line 118 "main.y" /* yacc.c:1652  */
     {}
-#line 1413 "main.tab.c" /* yacc.c:1652  */
+#line 1416 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 12:
-#line 116 "main.y" /* yacc.c:1652  */
+#line 119 "main.y" /* yacc.c:1652  */
     {}
-#line 1419 "main.tab.c" /* yacc.c:1652  */
+#line 1422 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 13:
-#line 120 "main.y" /* yacc.c:1652  */
+#line 123 "main.y" /* yacc.c:1652  */
     {}
-#line 1425 "main.tab.c" /* yacc.c:1652  */
+#line 1428 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 14:
-#line 124 "main.y" /* yacc.c:1652  */
+#line 127 "main.y" /* yacc.c:1652  */
     {}
-#line 1431 "main.tab.c" /* yacc.c:1652  */
+#line 1434 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 16:
-#line 129 "main.y" /* yacc.c:1652  */
+#line 132 "main.y" /* yacc.c:1652  */
     {}
-#line 1437 "main.tab.c" /* yacc.c:1652  */
+#line 1440 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 17:
-#line 130 "main.y" /* yacc.c:1652  */
+#line 133 "main.y" /* yacc.c:1652  */
     {}
-#line 1443 "main.tab.c" /* yacc.c:1652  */
+#line 1446 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 18:
-#line 134 "main.y" /* yacc.c:1652  */
+#line 137 "main.y" /* yacc.c:1652  */
     {}
-#line 1449 "main.tab.c" /* yacc.c:1652  */
+#line 1452 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 19:
-#line 135 "main.y" /* yacc.c:1652  */
+#line 138 "main.y" /* yacc.c:1652  */
     {}
-#line 1455 "main.tab.c" /* yacc.c:1652  */
+#line 1458 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 20:
-#line 139 "main.y" /* yacc.c:1652  */
+#line 142 "main.y" /* yacc.c:1652  */
     {}
-#line 1461 "main.tab.c" /* yacc.c:1652  */
+#line 1464 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 21:
-#line 143 "main.y" /* yacc.c:1652  */
-    {printf("Statement_list\n");}
-#line 1467 "main.tab.c" /* yacc.c:1652  */
+#line 146 "main.y" /* yacc.c:1652  */
+    {}
+#line 1470 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 22:
-#line 144 "main.y" /* yacc.c:1652  */
+#line 147 "main.y" /* yacc.c:1652  */
     {}
-#line 1473 "main.tab.c" /* yacc.c:1652  */
+#line 1476 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 23:
-#line 148 "main.y" /* yacc.c:1652  */
-    {printf("Assignment\n");}
-#line 1479 "main.tab.c" /* yacc.c:1652  */
+#line 151 "main.y" /* yacc.c:1652  */
+    {}
+#line 1482 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 24:
-#line 149 "main.y" /* yacc.c:1652  */
+#line 152 "main.y" /* yacc.c:1652  */
     {}
-#line 1485 "main.tab.c" /* yacc.c:1652  */
+#line 1488 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 25:
-#line 150 "main.y" /* yacc.c:1652  */
+#line 153 "main.y" /* yacc.c:1652  */
     {}
-#line 1491 "main.tab.c" /* yacc.c:1652  */
+#line 1494 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 26:
-#line 151 "main.y" /* yacc.c:1652  */
+#line 154 "main.y" /* yacc.c:1652  */
     {}
-#line 1497 "main.tab.c" /* yacc.c:1652  */
+#line 1500 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 27:
-#line 152 "main.y" /* yacc.c:1652  */
+#line 155 "main.y" /* yacc.c:1652  */
     {}
-#line 1503 "main.tab.c" /* yacc.c:1652  */
+#line 1506 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 28:
-#line 153 "main.y" /* yacc.c:1652  */
+#line 156 "main.y" /* yacc.c:1652  */
     {}
-#line 1509 "main.tab.c" /* yacc.c:1652  */
+#line 1512 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 29:
-#line 154 "main.y" /* yacc.c:1652  */
+#line 157 "main.y" /* yacc.c:1652  */
     {}
-#line 1515 "main.tab.c" /* yacc.c:1652  */
+#line 1518 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 30:
-#line 155 "main.y" /* yacc.c:1652  */
+#line 158 "main.y" /* yacc.c:1652  */
     {}
-#line 1521 "main.tab.c" /* yacc.c:1652  */
+#line 1524 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 31:
-#line 156 "main.y" /* yacc.c:1652  */
+#line 159 "main.y" /* yacc.c:1652  */
     {}
-#line 1527 "main.tab.c" /* yacc.c:1652  */
+#line 1530 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 32:
-#line 161 "main.y" /* yacc.c:1652  */
+#line 164 "main.y" /* yacc.c:1652  */
     {}
-#line 1533 "main.tab.c" /* yacc.c:1652  */
+#line 1536 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 33:
-#line 162 "main.y" /* yacc.c:1652  */
+#line 165 "main.y" /* yacc.c:1652  */
     {}
-#line 1539 "main.tab.c" /* yacc.c:1652  */
+#line 1542 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 34:
-#line 163 "main.y" /* yacc.c:1652  */
+#line 166 "main.y" /* yacc.c:1652  */
     {}
-#line 1545 "main.tab.c" /* yacc.c:1652  */
+#line 1548 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 35:
-#line 164 "main.y" /* yacc.c:1652  */
+#line 167 "main.y" /* yacc.c:1652  */
     {}
-#line 1551 "main.tab.c" /* yacc.c:1652  */
+#line 1554 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 36:
-#line 168 "main.y" /* yacc.c:1652  */
+#line 171 "main.y" /* yacc.c:1652  */
     {}
-#line 1557 "main.tab.c" /* yacc.c:1652  */
+#line 1560 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 37:
-#line 169 "main.y" /* yacc.c:1652  */
+#line 172 "main.y" /* yacc.c:1652  */
     {}
-#line 1563 "main.tab.c" /* yacc.c:1652  */
+#line 1566 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 38:
-#line 173 "main.y" /* yacc.c:1652  */
+#line 176 "main.y" /* yacc.c:1652  */
     {}
-#line 1569 "main.tab.c" /* yacc.c:1652  */
+#line 1572 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 39:
-#line 174 "main.y" /* yacc.c:1652  */
+#line 177 "main.y" /* yacc.c:1652  */
     {}
-#line 1575 "main.tab.c" /* yacc.c:1652  */
+#line 1578 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 40:
-#line 178 "main.y" /* yacc.c:1652  */
+#line 181 "main.y" /* yacc.c:1652  */
     {}
-#line 1581 "main.tab.c" /* yacc.c:1652  */
+#line 1584 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 41:
-#line 179 "main.y" /* yacc.c:1652  */
+#line 182 "main.y" /* yacc.c:1652  */
     {}
-#line 1587 "main.tab.c" /* yacc.c:1652  */
+#line 1590 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 42:
-#line 183 "main.y" /* yacc.c:1652  */
+#line 186 "main.y" /* yacc.c:1652  */
     {}
-#line 1593 "main.tab.c" /* yacc.c:1652  */
+#line 1596 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 43:
-#line 184 "main.y" /* yacc.c:1652  */
+#line 187 "main.y" /* yacc.c:1652  */
     {}
-#line 1599 "main.tab.c" /* yacc.c:1652  */
+#line 1602 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 44:
-#line 188 "main.y" /* yacc.c:1652  */
+#line 191 "main.y" /* yacc.c:1652  */
     {}
-#line 1605 "main.tab.c" /* yacc.c:1652  */
+#line 1608 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 45:
-#line 189 "main.y" /* yacc.c:1652  */
+#line 192 "main.y" /* yacc.c:1652  */
     {}
-#line 1611 "main.tab.c" /* yacc.c:1652  */
+#line 1614 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 46:
-#line 193 "main.y" /* yacc.c:1652  */
+#line 196 "main.y" /* yacc.c:1652  */
     {}
-#line 1617 "main.tab.c" /* yacc.c:1652  */
+#line 1620 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 47:
-#line 197 "main.y" /* yacc.c:1652  */
+#line 200 "main.y" /* yacc.c:1652  */
     {}
-#line 1623 "main.tab.c" /* yacc.c:1652  */
+#line 1626 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 48:
-#line 198 "main.y" /* yacc.c:1652  */
+#line 201 "main.y" /* yacc.c:1652  */
     {}
-#line 1629 "main.tab.c" /* yacc.c:1652  */
+#line 1632 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 49:
-#line 202 "main.y" /* yacc.c:1652  */
+#line 205 "main.y" /* yacc.c:1652  */
     {}
-#line 1635 "main.tab.c" /* yacc.c:1652  */
+#line 1638 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 50:
-#line 203 "main.y" /* yacc.c:1652  */
+#line 206 "main.y" /* yacc.c:1652  */
     {}
-#line 1641 "main.tab.c" /* yacc.c:1652  */
+#line 1644 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 51:
-#line 207 "main.y" /* yacc.c:1652  */
+#line 210 "main.y" /* yacc.c:1652  */
     {}
-#line 1647 "main.tab.c" /* yacc.c:1652  */
+#line 1650 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 52:
-#line 208 "main.y" /* yacc.c:1652  */
+#line 211 "main.y" /* yacc.c:1652  */
     {}
-#line 1653 "main.tab.c" /* yacc.c:1652  */
+#line 1656 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 53:
-#line 212 "main.y" /* yacc.c:1652  */
+#line 215 "main.y" /* yacc.c:1652  */
     {}
-#line 1659 "main.tab.c" /* yacc.c:1652  */
+#line 1662 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 54:
-#line 213 "main.y" /* yacc.c:1652  */
+#line 216 "main.y" /* yacc.c:1652  */
     {}
-#line 1665 "main.tab.c" /* yacc.c:1652  */
+#line 1668 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 55:
-#line 217 "main.y" /* yacc.c:1652  */
+#line 220 "main.y" /* yacc.c:1652  */
     {}
-#line 1671 "main.tab.c" /* yacc.c:1652  */
+#line 1674 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 56:
-#line 218 "main.y" /* yacc.c:1652  */
+#line 221 "main.y" /* yacc.c:1652  */
     {}
-#line 1677 "main.tab.c" /* yacc.c:1652  */
+#line 1680 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 57:
-#line 222 "main.y" /* yacc.c:1652  */
+#line 225 "main.y" /* yacc.c:1652  */
     {}
-#line 1683 "main.tab.c" /* yacc.c:1652  */
+#line 1686 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 58:
-#line 223 "main.y" /* yacc.c:1652  */
+#line 226 "main.y" /* yacc.c:1652  */
     {}
-#line 1689 "main.tab.c" /* yacc.c:1652  */
+#line 1692 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 59:
-#line 224 "main.y" /* yacc.c:1652  */
+#line 227 "main.y" /* yacc.c:1652  */
     {}
-#line 1695 "main.tab.c" /* yacc.c:1652  */
+#line 1698 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 60:
-#line 225 "main.y" /* yacc.c:1652  */
+#line 228 "main.y" /* yacc.c:1652  */
     {}
-#line 1701 "main.tab.c" /* yacc.c:1652  */
+#line 1704 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 61:
-#line 226 "main.y" /* yacc.c:1652  */
+#line 229 "main.y" /* yacc.c:1652  */
     {}
-#line 1707 "main.tab.c" /* yacc.c:1652  */
+#line 1710 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 62:
-#line 227 "main.y" /* yacc.c:1652  */
+#line 230 "main.y" /* yacc.c:1652  */
     {}
-#line 1713 "main.tab.c" /* yacc.c:1652  */
+#line 1716 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 63:
-#line 231 "main.y" /* yacc.c:1652  */
+#line 234 "main.y" /* yacc.c:1652  */
     {}
-#line 1719 "main.tab.c" /* yacc.c:1652  */
+#line 1722 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 64:
-#line 232 "main.y" /* yacc.c:1652  */
+#line 235 "main.y" /* yacc.c:1652  */
     {}
-#line 1725 "main.tab.c" /* yacc.c:1652  */
+#line 1728 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 65:
-#line 236 "main.y" /* yacc.c:1652  */
+#line 239 "main.y" /* yacc.c:1652  */
     {}
-#line 1731 "main.tab.c" /* yacc.c:1652  */
+#line 1734 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 66:
-#line 237 "main.y" /* yacc.c:1652  */
+#line 240 "main.y" /* yacc.c:1652  */
     {}
-#line 1737 "main.tab.c" /* yacc.c:1652  */
+#line 1740 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 67:
-#line 238 "main.y" /* yacc.c:1652  */
+#line 241 "main.y" /* yacc.c:1652  */
     {}
-#line 1743 "main.tab.c" /* yacc.c:1652  */
+#line 1746 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 68:
-#line 239 "main.y" /* yacc.c:1652  */
+#line 242 "main.y" /* yacc.c:1652  */
     {}
-#line 1749 "main.tab.c" /* yacc.c:1652  */
+#line 1752 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 69:
-#line 240 "main.y" /* yacc.c:1652  */
+#line 243 "main.y" /* yacc.c:1652  */
     {}
-#line 1755 "main.tab.c" /* yacc.c:1652  */
+#line 1758 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 70:
-#line 241 "main.y" /* yacc.c:1652  */
+#line 244 "main.y" /* yacc.c:1652  */
     {}
-#line 1761 "main.tab.c" /* yacc.c:1652  */
+#line 1764 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 71:
-#line 246 "main.y" /* yacc.c:1652  */
+#line 249 "main.y" /* yacc.c:1652  */
     {}
-#line 1767 "main.tab.c" /* yacc.c:1652  */
+#line 1770 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 72:
-#line 247 "main.y" /* yacc.c:1652  */
+#line 250 "main.y" /* yacc.c:1652  */
     {}
-#line 1773 "main.tab.c" /* yacc.c:1652  */
+#line 1776 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 73:
-#line 251 "main.y" /* yacc.c:1652  */
+#line 254 "main.y" /* yacc.c:1652  */
     {}
-#line 1779 "main.tab.c" /* yacc.c:1652  */
+#line 1782 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 74:
-#line 252 "main.y" /* yacc.c:1652  */
+#line 255 "main.y" /* yacc.c:1652  */
     {}
-#line 1785 "main.tab.c" /* yacc.c:1652  */
+#line 1788 "main.tab.c" /* yacc.c:1652  */
     break;
 
 
-#line 1789 "main.tab.c" /* yacc.c:1652  */
+#line 1792 "main.tab.c" /* yacc.c:1652  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2016,21 +2019,32 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 255 "main.y" /* yacc.c:1918  */
+#line 258 "main.y" /* yacc.c:1918  */
 
 
 int yyerror(char *s){
 	printf("Syntax Error on line %d : %s\n", yylineno, s);
-	return 0;
+    appendErrorList(&errorList, s, yylineno);
+	//return 0;
 }
 
 int main(int argc, char *argv[]){
     if(argc == 2){
         yyin= fopen(argv[1], "r");
+        appendErrorList(&errorList, "dfafd", 1);
+        appendErrorList(&errorList, "dfafd", 2);
+        appendErrorList(&errorList, "dfafd", 3);
+        appendErrorList(&errorList, "dfafd", 4);
+        appendErrorList(&errorList, "dfafd", 5);
+        printErrorList(&errorList);
         if(yyin){
             int result = yyparse();
             if(result == 0){
-                printf("Compile Success\n");
+                if(errorNum == 0){
+                    printf("Compile Success\n");
+                } else{
+                    printf("Compile Fail\n");
+                }
             } else if(result == 1){
                 printf("Compile Fail\n");
             }

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "list.h"
 
 int yylex();
 int yyerror(char *s);
@@ -10,6 +11,8 @@ extern int yylex();
 extern char* yytext;
 
 FILE *yyin;
+int errorNum = 0;
+ErrorNode* errorList = NULL;
 %}
 
 %token ID INTEGER FLOAT SEMICOLON
@@ -140,12 +143,12 @@ COMPOUND_STATEMENT:
 ;
 
 STATEMENT_LIST:
-    STATEMENT {printf("Statement_list\n");}
+    STATEMENT {}
     | STATEMENT SEMICOLON STATEMENT_LIST {}
 ;
 
 STATEMENT:
-    VARIABLE '=' EXPRESSION {printf("Assignment\n");}
+    VARIABLE '=' EXPRESSION {}
     | PRINT_STATEMENT {}
     | PROCEDURE_STATEMENT {}
     | COMPOUND_STATEMENT {}
@@ -256,16 +259,27 @@ MULTOP:
 
 int yyerror(char *s){
 	printf("Syntax Error on line %d : %s\n", yylineno, s);
-	return 0;
+    appendErrorList(&errorList, s, yylineno);
+	//return 0;
 }
 
 int main(int argc, char *argv[]){
     if(argc == 2){
         yyin= fopen(argv[1], "r");
+        appendErrorList(&errorList, "dfafd", 1);
+        appendErrorList(&errorList, "dfafd", 2);
+        appendErrorList(&errorList, "dfafd", 3);
+        appendErrorList(&errorList, "dfafd", 4);
+        appendErrorList(&errorList, "dfafd", 5);
+        printErrorList(&errorList);
         if(yyin){
             int result = yyparse();
             if(result == 0){
-                printf("Compile Success\n");
+                if(errorNum == 0){
+                    printf("Compile Success\n");
+                } else{
+                    printf("Compile Fail\n");
+                }
             } else if(result == 1){
                 printf("Compile Fail\n");
             }
