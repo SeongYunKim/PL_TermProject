@@ -2019,24 +2019,22 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 258 "main.y" /* yacc.c:1918  */
+#line 257 "main.y" /* yacc.c:1918  */
 
 
 int yyerror(char *s){
-	printf("Syntax Error on line %d : %s\n", yylineno, s);
+    return yyerror2(s, yylineno);
+}
+
+int yyerror2(char *s, int yylineno){
     appendErrorList(&errorList, s, yylineno);
-	//return 0;
+    errorNum++;
+    return 0;
 }
 
 int main(int argc, char *argv[]){
     if(argc == 2){
         yyin= fopen(argv[1], "r");
-        appendErrorList(&errorList, "dfafd", 1);
-        appendErrorList(&errorList, "dfafd", 2);
-        appendErrorList(&errorList, "dfafd", 3);
-        appendErrorList(&errorList, "dfafd", 4);
-        appendErrorList(&errorList, "dfafd", 5);
-        printErrorList(&errorList);
         if(yyin){
             int result = yyparse();
             if(result == 0){
@@ -2044,6 +2042,7 @@ int main(int argc, char *argv[]){
                     printf("Compile Success\n");
                 } else{
                     printf("Compile Fail\n");
+                    printErrorList(&errorList);
                 }
             } else if(result == 1){
                 printf("Compile Fail\n");

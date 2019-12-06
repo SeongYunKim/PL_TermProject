@@ -92,60 +92,60 @@ ErrorNode* errorList = NULL;
 %%
 PROGRAM:
     MAINPROG ID SEMICOLON DECLARATIONS SUBPROGRAM_DECLARATIONS COMPOUND_STATEMENT {}
-;
+
 
 DECLARATIONS:
     TYPE IDENTIFIER_LIST SEMICOLON DECLARATIONS {}
     | {}
-;
+
 
 IDENTIFIER_LIST:
     ID {}
     | ID ',' IDENTIFIER_LIST {}
-;
+
 
 TYPE:
     STANDARD_TYPE {}
     | STANDARD_TYPE '[' INTEGER ']' {}
-;
+
 
 STANDARD_TYPE:
     TYPE_INT {}
     | TYPE_FLOAT {}
-;
+
 
 SUBPROGRAM_DECLARATIONS:
     SUBPROGRAM_DECLARATION SUBPROGRAM_DECLARATIONS {}
     | {}
-;
+
 
 SUBPROGRAM_DECLARATION:
     SUBPROGRAM_HEAD DECLARATIONS COMPOUND_STATEMENT {}
-;
+
 
 SUBPROGRAM_HEAD:
     FUNCTION ID ARGUMENTS ':' STANDARD_TYPE SEMICOLON {}
     | PROCEDURE ID ARGUMENTS SEMICOLON
-;
+
 
 ARGUMENTS:
     '(' PARAMETER_LIST ')' {}
     | {}
-;
+
 
 PARAMETER_LIST:
     IDENTIFIER_LIST ':' TYPE {}
     | IDENTIFIER_LIST ':' TYPE SEMICOLON PARAMETER_LIST {}
-;
+
 
 COMPOUND_STATEMENT:
     BODY_BEGIN STATEMENT_LIST BODY_END {}
-;
+
 
 STATEMENT_LIST:
     STATEMENT {}
     | STATEMENT SEMICOLON STATEMENT_LIST {}
-;
+
 
 STATEMENT:
     VARIABLE '=' EXPRESSION {}
@@ -158,68 +158,68 @@ STATEMENT:
     | RETURN EXPRESSION {}
     | NOP {}
     //| {}
-;
+
 
 IF_STATEMENT:
     IF EXPRESSION ':' STATEMENT {}
     | IF EXPRESSION ':' STATEMENT ELIF_STATEMENT {}
     | IF EXPRESSION ':' STATEMENT ELIF_STATEMENT ELSE ':' STATEMENT {}
     | IF EXPRESSION ':' STATEMENT ELSE ':' STATEMENT {}
-;
+
 
 ELIF_STATEMENT:
     ELIF EXPRESSION ':' STATEMENT {}
     | ELIF EXPRESSION ':' STATEMENT ELIF_STATEMENT {}
-;
+
 
 WHILE_STATEMENT:
     WHILE EXPRESSION ':' STATEMENT {}
     | WHILE EXPRESSION ':' STATEMENT ELSE ':' STATEMENT {}
-;
+
 
 FOR_STATEMENT:
     FOR EXPRESSION IN EXPRESSION ':' STATEMENT {}
     | FOR EXPRESSION IN EXPRESSION ':' STATEMENT ELSE ':' STATEMENT {}
-;
+
 
 PRINT_STATEMENT:
     PRINT {}
     | PRINT '(' EXPRESSION ')' {}
-;
+
 
 VARIABLE:
     ID {}
     | ID '[' EXPRESSION ']' {}
-;
+
 
 PROCEDURE_STATEMENT:
     ID '(' ACTUAL_PARAMETER_EXPRESSION ')' {}
-;
+
 
 ACTUAL_PARAMETER_EXPRESSION:
     EXPRESSION_LIST {}
     | {}
-;
+
 
 EXPRESSION_LIST:
     EXPRESSION {}
     | EXPRESSION ',' EXPRESSION_LIST {}
-;
+
 
 EXPRESSION:
     SIMPLE_EXPRESSION {}
     | SIMPLE_EXPRESSION RELOP SIMPLE_EXPRESSION {}
-;
+
 
 SIMPLE_EXPRESSION:
     TERM {}
     | TERM ADDOP SIMPLE_EXPRESSION {}
-;
+
 
 TERM:
     FACTOR {}
     | FACTOR MULTOP TERM {}
-;
+
 
 FACTOR:
     INTEGER {}
@@ -228,12 +228,12 @@ FACTOR:
     | PROCEDURE_STATEMENT {}
     | OP_NOT FACTOR {}
     | SIGN FACTOR {}
-;
+
 
 SIGN:
     OP_PLUS {}
     | OP_MINUS {}
-;
+
 
 RELOP:
     OP_LET {}
@@ -243,35 +243,32 @@ RELOP:
     | OP_EQ {}
     | OP_NEQ {}
     //| IN {} 수정
-;
+
 
 ADDOP:
     OP_PLUS {}
     | OP_MINUS {}
-;
+
 
 MULTOP:
     OP_MUL {}
     | OP_DIV {}
-;
 
 %%
 
 int yyerror(char *s){
-	printf("Syntax Error on line %d : %s\n", yylineno, s);
+    return yyerror2(s, yylineno);
+}
+
+int yyerror2(char *s, int yylineno){
     appendErrorList(&errorList, s, yylineno);
-	//return 0;
+    errorNum++;
+    return 0;
 }
 
 int main(int argc, char *argv[]){
     if(argc == 2){
         yyin= fopen(argv[1], "r");
-        appendErrorList(&errorList, "dfafd", 1);
-        appendErrorList(&errorList, "dfafd", 2);
-        appendErrorList(&errorList, "dfafd", 3);
-        appendErrorList(&errorList, "dfafd", 4);
-        appendErrorList(&errorList, "dfafd", 5);
-        printErrorList(&errorList);
         if(yyin){
             int result = yyparse();
             if(result == 0){
@@ -279,6 +276,7 @@ int main(int argc, char *argv[]){
                     printf("Compile Success\n");
                 } else{
                     printf("Compile Fail\n");
+                    printErrorList(&errorList);
                 }
             } else if(result == 1){
                 printf("Compile Fail\n");
