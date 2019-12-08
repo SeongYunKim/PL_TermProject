@@ -3,16 +3,25 @@
 #include <stdlib.h>
 #include <string.h>
 #include "list.h"
+#include "checknode.h"
 
 int yylex();
 int yyerror(char *s);
 extern int yylineno;
 extern int yylex();
 extern char* yytext;
+char errorBuffer[10000] = {0};
+
+NameList findVar(char *name);
+const checkNode NULL_NODE = {0, 0, V_UNKNOWN, -1};
 
 FILE *yyin;
 int errorNum = 0;
 ErrorNode* errorList = NULL;
+NameList localVarList = NULL;
+NameList globalVarList = NULL;
+NameList subProgramList = NULL;
+NameList parameterVarList = NULL;
 %}
 
 %token ID INTEGER FLOAT SEMICOLON
@@ -52,10 +61,10 @@ ErrorNode* errorList = NULL;
 %type <floatData> FLOAT
 
 %type <name> PROGRAM
-%type <name> DECLARATIONS
-%type <name> IDENTIFIER_LIST
-%type <name> TYPE
-%type <name> STANDARD_TYPE
+%type <nameNodeList> DECLARATIONS
+%type <nameNodeList> IDENTIFIER_LIST
+%type <intData> TYPE
+%type <intData> STANDARD_TYPE
 %type <name> SUBPROGRAM_DECLARATIONS
 %type <name> SUBPROGRAM_DECLARATION
 %type <name> ARGUMENTS
@@ -81,37 +90,82 @@ ErrorNode* errorList = NULL;
 %type <name> ADDOP
 %type <name> MULTOP
 
+%code requires {
+    #include "list.h"
+    #include "checknode.h"
+}
 
 %union{
 	char name[1000];
 	int intData;
 	float floatData;
+	//struct checkNode checkData;
+	NameList nameNodeList;
+	//varType typeData;
 }
 
 
 %%
 PROGRAM:
-    MAINPROG ID SEMICOLON DECLARATIONS SUBPROGRAM_DECLARATIONS COMPOUND_STATEMENT {}
-
+    MAINPROG ID SEMICOLON DECLARATIONS SUBPROGRAM_DECLARATIONS COMPOUND_STATEMENT {
+        for(NameList ptr = $4; ptr;ptr = ptr->next) {
+            if (findVar(ptr->name) == NULL) {
+                // add Var
+                //printf("변수 %s 선언\n", ptr->name);
+                nameListAppend(&globalVarList, ptr->name, ptr->type, ptr->dec_line);
+            }
+            else {
+                sprintf(errorBuffer, "변수\'%s\' 중복선언", ptr->name);
+                yyerror2(errorBuffer, ptr->dec_line);
+            }
+        }
+    }
 
 DECLARATIONS:
-    TYPE IDENTIFIER_LIST SEMICOLON DECLARATIONS {}
-    | {}
+    TYPE IDENTIFIER_LIST SEMICOLON DECLARATIONS {
+        $$ = $2;
+        // list 저장된 각 배열에 대하여 type 지정
+        for(NameList ptr = $2; ptr; ptr = ptr->next) {
+            ptr->type = $1;
+        }
+        nameNodeConcat(($$), ($4));
+    }
+    | {
+        $$ = makeNameList();
+    }
 
 
 IDENTIFIER_LIST:
-    ID {}
-    | ID ',' IDENTIFIER_LIST {}
+    ID {
+        $$ = makeNameList();
+        nameListAppend(&($$), $1, V_UNKNOWN, yylineno);
+    }
+    | ID ',' IDENTIFIER_LIST {
+        $$ = makeNameList();
+        nameListAppend(&($$), $1, V_UNKNOWN, yylineno);
+        nameNodeConcat(($$), ($3));
+    }
 
 
 TYPE:
-    STANDARD_TYPE {}
-    | STANDARD_TYPE '[' INTEGER ']' {}
+    STANDARD_TYPE {
+        $$ = $1;
+    }
+    | STANDARD_TYPE '[' INTEGER ']' {
+        if($1 == V_INT)
+            $$ = V_INT_ARY;
+        else
+            $$ = V_FLOAT_ARY;
+    }
 
 
 STANDARD_TYPE:
-    TYPE_INT {}
-    | TYPE_FLOAT {}
+    TYPE_INT {
+        $$ = V_INT;
+    }
+    | TYPE_FLOAT {
+        $$ = V_FLOAT;
+    }
 
 
 SUBPROGRAM_DECLARATIONS:
@@ -157,7 +211,6 @@ STATEMENT:
     | FOR_STATEMENT {}
     | RETURN EXPRESSION {}
     | NOP {}
-    //| {}
 
 
 IF_STATEMENT:
@@ -207,7 +260,8 @@ EXPRESSION_LIST:
 
 
 EXPRESSION:
-    SIMPLE_EXPRESSION {}
+    SIMPLE_EXPRESSION {
+    }
     | SIMPLE_EXPRESSION RELOP SIMPLE_EXPRESSION {}
 
 
@@ -261,12 +315,12 @@ int yyerror(char *s){
 }
 
 int yyerror2(char *s, int yylineno){
-    appendErrorList(&errorList, s, yylineno);
+    errorNodeAppend(&errorList, s, yylineno);
     errorNum++;
     return 0;
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
     if(argc == 2){
         yyin= fopen(argv[1], "r");
         if(yyin){
@@ -276,7 +330,7 @@ int main(int argc, char *argv[]){
                     printf("Compile Success\n");
                 } else{
                     printf("Compile Fail\n");
-                    printErrorList(&errorList);
+                    errorListPrint(&errorList);
                 }
             } else if(result == 1){
                 printf("Compile Fail\n");
@@ -291,4 +345,15 @@ int main(int argc, char *argv[]){
         printf("[Error] Incorrect input argument\n");
     }
 	return 0;
+}
+
+NameList findVar(char *name) {
+    NameList res = NULL;
+    if((res = nameNodeFind(localVarList, name)) != NULL)
+        return res;
+    if((res = nameNodeFind(parameterVarList, name)) != NULL)
+        return res;
+    if((res = nameNodeFind(globalVarList, name)) != NULL)
+        return res;
+    return res;
 }

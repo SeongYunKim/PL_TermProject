@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "list.h"
 
-void appendErrorList(ErrorNode **list, char *code, int line) {
+// Error Node ==========================================================================================================
+
+void errorNodeAppend(ErrorNode **list, char *code, int line) {
     ErrorNode *curErrorNode = *list;
     ErrorNode *newErrorNode = (ErrorNode *) malloc(sizeof(ErrorNode));
     newErrorNode->code = code;
@@ -18,11 +21,59 @@ void appendErrorList(ErrorNode **list, char *code, int line) {
     }
 }
 
-void printErrorList(ErrorNode **list) {
+void errorListPrint(ErrorNode **list) {
     ErrorNode *curErrorNode = *list;
     while (curErrorNode->next != NULL) {
-        printf("Syntax Error on line %d : %s\n", curErrorNode->line, curErrorNode->code);
+        printf("Error on line %d : %s\n", curErrorNode->line, curErrorNode->code);
         curErrorNode = curErrorNode->next;
     }
-    printf("Syntax Error on line %d : %s\n", curErrorNode->line, curErrorNode->code);
+    printf("Error on line %d : %s\n", curErrorNode->line, curErrorNode->code);
+}
+
+// Name Node ===========================================================================================================
+
+void nameListAppend(NameList *list, char *name, varType type, int dec_line) {
+    NameList curNameNode = *list;
+    NameList newNameNode = (NameList)malloc(sizeof(NameNode));
+    strcpy(newNameNode->name, name);
+    newNameNode->type = type;
+    newNameNode->dec_line = dec_line;
+    newNameNode->next = NULL;
+    if (*list == NULL) {
+        *list = newNameNode;
+    } else {
+        while (curNameNode->next != NULL) {
+            curNameNode = curNameNode->next;
+        }
+        curNameNode->next = newNameNode;
+    }
+}
+
+NameNode *nameNodeFind(NameNode *list, char *name) {
+    NameNode *curNameNode = list;
+    if(list == NULL)
+        return NULL;
+    while(curNameNode->next != NULL && strcmp(curNameNode->name, name) != 0) {
+        curNameNode = curNameNode->next;
+    }
+    if(strcmp(curNameNode->name, name) == 0)
+        return curNameNode;
+    return NULL;
+}
+
+void nameNodeConcat(NameList First, NameList Second) {
+    NameList curNameNode = First;
+    if (curNameNode == NULL) {
+        First = Second;
+    }
+    else {
+        while (curNameNode->next != NULL) {
+            curNameNode = curNameNode->next;
+        }
+        curNameNode->next = Second;
+    }
+}
+
+NameList makeNameList() {
+    return NULL;
 }

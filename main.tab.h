@@ -1,9 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.3.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
-   Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,9 +30,6 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-/* Undocumented macros, especially those whose name start with YY_,
-   are private implementation details.  Do not rely on them.  */
-
 #ifndef YY_YY_MAIN_TAB_H_INCLUDED
 # define YY_YY_MAIN_TAB_H_INCLUDED
 /* Debug traces.  */
@@ -43,6 +39,13 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
+/* "%code requires" blocks.  */
+#line 93 "main.y" /* yacc.c:1909  */
+
+    #include "list.h"
+    #include "checknode.h"
+
+#line 49 "main.tab.h" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -89,13 +92,16 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 85 "main.y" /* yacc.c:1921  */
+#line 98 "main.y" /* yacc.c:1909  */
 
 	char name[1000];
 	int intData;
 	float floatData;
+	//struct checkNode checkData;
+	NameList nameNodeList;
+	//varType typeData;
 
-#line 99 "main.tab.h" /* yacc.c:1921  */
+#line 105 "main.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
