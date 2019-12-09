@@ -77,3 +77,26 @@ void nameNodeConcat(NameList First, NameList Second) {
 NameList makeNameList() {
     return NULL;
 }
+
+// checkNode ===========================================================================================================
+void subProgListAppend(NameList *list, char *name, pType type, SubProgList param_list, SubProgList local_list, int dec_line){
+    SubProgList curNode = *list;
+    SubProgList newNode = (subProgList)malloc(sizeof(subProgNode));
+    strcpy(newNode->name, name);
+    newNode->dec_line = dec_line;
+    newNode->param_list = param_list;
+    newNode->local_list = local_list;
+    newNode->type = type;
+    if (*list == NULL) {
+        *list = newNode;
+    } else {
+        while (curNode->next != NULL) {
+            curNode = curNode->next;
+        }
+        curNode->next = newNode;
+    }
+}
+
+SubProgList makeSubProgList() {
+    return NULL;
+}

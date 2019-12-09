@@ -36,3 +36,22 @@ NameNode *nameNodeFind(NameNode *list, char *name);
 void nameListAppend(NameList *list, char *name, varType type, int dec_line);
 void nameNodeConcat(NameList First, NameList Second);
 NameList makeNameList();
+
+// subProgNode =========================================================================================================
+
+typedef enum pType{
+    FUNC,
+    PROC
+}pType;
+
+typedef struct SubProgNode {
+    char name[1000];
+    int dec_line;
+    pType type;
+    NameList param_list;
+    NameList local_list;
+}SubProgNode;
+typedef SubProgNode * subProgList;
+
+void subProgListAppend(NameList *list, char *name, pType type, SubProgList param_list, SubProgList local_list, int dec_line);
+SubProgList makeSubProgList();

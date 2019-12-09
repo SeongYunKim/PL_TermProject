@@ -12,7 +12,7 @@ extern int yylex();
 extern char* yytext;
 char errorBuffer[10000] = {0};
 
-NameList findVar(char *name);
+NameList findVar(char *name, NameList local_list, NameList param_list);
 const checkNode NULL_NODE = {0, 0, V_UNKNOWN, -1};
 
 FILE *yyin;
@@ -65,10 +65,11 @@ NameList parameterVarList = NULL;
 %type <nameNodeList> IDENTIFIER_LIST
 %type <intData> TYPE
 %type <intData> STANDARD_TYPE
-%type <name> SUBPROGRAM_DECLARATIONS
-%type <name> SUBPROGRAM_DECLARATION
-%type <name> ARGUMENTS
-%type <name> PARAMETER_LIST
+%type <subProgList> SUBPROGRAM_DECLARATIONS
+%type <subProgNodeData> SUBPROGRAM_DECLARATION
+%type <subProgNodeData> SUBPROGRAM_HEAD
+%type <nameNodeList> ARGUMENTS
+%type <nameNodeList> PARAMETER_LIST
 %type <name> COMPOUND_STATEMENT
 %type <name> STATEMENT_LIST
 %type <name> STATEMENT
@@ -99,8 +100,9 @@ NameList parameterVarList = NULL;
 	char name[1000];
 	int intData;
 	float floatData;
-	//struct checkNode checkData;
 	NameList nameNodeList;
+	SubProgList subProgList;
+	SubProgNode subProgNodeData;
 	//varType typeData;
 }
 
@@ -109,13 +111,13 @@ NameList parameterVarList = NULL;
 PROGRAM:
     MAINPROG ID SEMICOLON DECLARATIONS SUBPROGRAM_DECLARATIONS COMPOUND_STATEMENT {
         for(NameList ptr = $4; ptr;ptr = ptr->next) {
-            if (findVar(ptr->name) == NULL) {
+            if (nameNodeFind(globalVarList, ptr->name) == NULL) {
                 // add Var
-                //printf("변수 %s 선언\n", ptr->name);
+                //printf("전역 변수 %s 선언\n", ptr->name);
                 nameListAppend(&globalVarList, ptr->name, ptr->type, ptr->dec_line);
             }
             else {
-                sprintf(errorBuffer, "변수\'%s\' 중복선언", ptr->name);
+                sprintf(errorBuffer, "전역 변수\'%s\' 중복선언", ptr->name);
                 yyerror2(errorBuffer, ptr->dec_line);
             }
         }
@@ -169,27 +171,63 @@ STANDARD_TYPE:
 
 
 SUBPROGRAM_DECLARATIONS:
-    SUBPROGRAM_DECLARATION SUBPROGRAM_DECLARATIONS {}
-    | {}
+    SUBPROGRAM_DECLARATION SUBPROGRAM_DECLARATIONS {
+        $$ = $2;
+        subProgListAppned($$, ($1).name, ($1).type, ($1).param_list, ($1).local_list, ($1).dec_line);
+    }
+    | {
+        $$ = makeSubProgList()
+    }
 
 
 SUBPROGRAM_DECLARATION:
-    SUBPROGRAM_HEAD DECLARATIONS COMPOUND_STATEMENT {}
+    SUBPROGRAM_HEAD DECLARATIONS COMPOUND_STATEMENT {
+        SubProgNode temp = $1;
+        temp.local_list = $2;
+        $$ = temp;
+    }
 
 
 SUBPROGRAM_HEAD:
-    FUNCTION ID ARGUMENTS ':' STANDARD_TYPE SEMICOLON {}
-    | PROCEDURE ID ARGUMENTS SEMICOLON
+    FUNCTION ID ARGUMENTS ':' STANDARD_TYPE SEMICOLON {
+        SubProgNode temp;
+        temp.name = $2;
+        temp.param_list = $3;
+        temp.type = FUNC;
+    }
+    | PROCEDURE ID ARGUMENTS SEMICOLON {
+        SubProgNode temp;
+        temp.name = $2;
+        temp.param_list = $3;
+        temp.type = PROC;
+    }
 
 
 ARGUMENTS:
-    '(' PARAMETER_LIST ')' {}
-    | {}
+    '(' PARAMETER_LIST ')' {
+        $$ = $2
+    }
+    | {
+        $$ = makeNameList();
+    }
 
 
 PARAMETER_LIST:
-    IDENTIFIER_LIST ':' TYPE {}
-    | IDENTIFIER_LIST ':' TYPE SEMICOLON PARAMETER_LIST {}
+    IDENTIFIER_LIST ':' TYPE {
+        $$ = $1;
+        // list 저장된 각 배열에 대하여 type 지정
+        for(NameList ptr = $1; ptr; ptr = ptr->next) {
+            ptr->type = $3;
+        }
+    }
+    | IDENTIFIER_LIST ':' TYPE SEMICOLON PARAMETER_LIST {
+        $$ = $1;
+        // list 저장된 각 배열에 대하여 type 지정
+        for(NameList ptr = $1; ptr; ptr = ptr->next) {
+            ptr->type = $3;
+        }
+        nameNodeConcat(($$), ($5));
+    }
 
 
 COMPOUND_STATEMENT:
@@ -260,8 +298,7 @@ EXPRESSION_LIST:
 
 
 EXPRESSION:
-    SIMPLE_EXPRESSION {
-    }
+    SIMPLE_EXPRESSION {}
     | SIMPLE_EXPRESSION RELOP SIMPLE_EXPRESSION {}
 
 
@@ -329,8 +366,8 @@ int main(int argc, char *argv[]) {
                 if(errorNum == 0){
                     printf("Compile Success\n");
                 } else{
-                    printf("Compile Fail\n");
                     errorListPrint(&errorList);
+                    printf("Compile Fail\n");
                 }
             } else if(result == 1){
                 printf("Compile Fail\n");
@@ -347,11 +384,11 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 
-NameList findVar(char *name) {
+NameList findVar(char *name, NameList local_list, NameList param_list) {
     NameList res = NULL;
-    if((res = nameNodeFind(localVarList, name)) != NULL)
+    if((res = nameNodeFind(local_list, name)) != NULL)
         return res;
-    if((res = nameNodeFind(parameterVarList, name)) != NULL)
+    if((res = nameNodeFind(param_list, name)) != NULL)
         return res;
     if((res = nameNodeFind(globalVarList, name)) != NULL)
         return res;
