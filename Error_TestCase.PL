@@ -18,7 +18,7 @@ function foo(arg1: int; arg2: float): float;
 		global5 = 5;
 		global6 = 6;
 		arg1 = 1;
-		arg2 = 2.0;
+		arg2 = .4;
 		arg3 = 3;
 		local1 = 1;
 		local2 = 2;

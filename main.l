@@ -10,7 +10,7 @@ void showError();
 letter		[a-zA-Z]
 digit		[0-9]
 integer		{digit}+
-float 		{digit}+\.{digit}+
+float 		{digit}*\.{digit}+
 id		    {letter}({letter}|{digit})*
 
 
