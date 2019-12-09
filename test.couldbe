@@ -1,7 +1,22 @@
-mainprog itCouldBeMain;
+mainprog error1;
 
+function plus(x: int; y: int): int;
+    int a, b, c;
+	begin
+		return x+y
+	end
+
+function plus(x: int; y: int): int;
+    int a, x;
+	begin
+	    a = z;
+	    fuck();
+		return x-a
+	end
 
 begin
-	itCouldBeVariable1 = 4;
-	itCouldBeVariable2 = 4
+    fuck();
+    a = fuck(3, 4);
+    print(a)
 end
+
