@@ -18,10 +18,10 @@ const checkNode NULL_NODE = {0, 0, V_UNKNOWN, -1};
 FILE *yyin;
 int errorNum = 0;
 ErrorNode* errorList = NULL;
-NameList localVarList = NULL;
+//NameList localVarList = NULL;
 NameList globalVarList = NULL;
 NameList subProgramList = NULL;
-NameList parameterVarList = NULL;
+//NameList parameterVarList = NULL;
 %}
 
 %token ID INTEGER FLOAT SEMICOLON
@@ -132,6 +132,9 @@ PROGRAM:
         for(SubProgList sptr = $5; sptr; sptr = sptr->next) {
             NameList cur_param = makeNameList();
             NameList cur_local = makeNameList();
+
+            nameListAppend(&subProgramList, sptr->name, sptr->type, sptr->dec_line);
+
             for(NameList ptr = sptr->param_list; ptr; ptr = ptr->next) {
                 if(nameNodeFind(cur_param, ptr->name) == NULL) {
                     //printf("매개 변수 %s 선언\n", ptr->name);
@@ -157,6 +160,22 @@ PROGRAM:
             for(NameList ptr = sptr->used_var_list; ptr;ptr = ptr->next) {
                 if(findVar(ptr->name, cur_local, cur_param) == NULL && ptr->type != V_FUNC) {
                     sprintf(errorBuffer, "선언되지 않은 변수\'%s\'", ptr->name);
+                    yyerror2(errorBuffer, ptr->dec_line);
+                }
+            }
+        }
+
+        for(NameList ptr = $6; ptr;ptr = ptr->next) {
+            if(nameNodeFind(subProgramList, ptr->name) == NULL && ptr->type == V_FUNC) {
+                sprintf(errorBuffer, "선언되지 않은 함수\'%s\'", ptr->name);
+                yyerror2(errorBuffer, ptr->dec_line);
+            }
+        }
+
+        for(SubProgList sptr = $5; sptr; sptr = sptr->next) {
+            for(NameList ptr = sptr->used_var_list; ptr;ptr = ptr->next) {
+                if(nameNodeFind(subProgramList, ptr->name) == NULL && ptr->type == V_FUNC) {
+                    sprintf(errorBuffer, "선언되지 않은 함수\'%s\'", ptr->name);
                     yyerror2(errorBuffer, ptr->dec_line);
                 }
             }

@@ -10,10 +10,12 @@ function min(x: int; y: int): int;
     int a, x;
 	begin
 	    a = z;
+	    fuck();
 		return x-a
 	end
 
 begin
+    fuck();
     plus(a, 4)
 end
 
