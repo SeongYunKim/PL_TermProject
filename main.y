@@ -111,7 +111,7 @@ NameList parameterVarList = NULL;
 PROGRAM:
     MAINPROG ID SEMICOLON DECLARATIONS SUBPROGRAM_DECLARATIONS COMPOUND_STATEMENT {
         for(NameList ptr = $4; ptr;ptr = ptr->next) {
-            if (nameNodeFind(globalVarList, ptr->name) == NULL) {
+            if(nameNodeFind(globalVarList, ptr->name) == NULL) {
                 // add Var
                 //printf("전역 변수 %s 선언\n", ptr->name);
                 nameListAppend(&globalVarList, ptr->name, ptr->type, ptr->dec_line);
@@ -119,6 +119,32 @@ PROGRAM:
             else {
                 sprintf(errorBuffer, "전역 변수\'%s\' 중복선언", ptr->name);
                 yyerror2(errorBuffer, ptr->dec_line);
+            }
+        }
+
+        for(SubProgList sptr = $5; sptr; sptr = sptr->next) {
+            NameList cur_param = makeNameList();
+            NameList cur_local = makeNameList();
+            for(NameList ptr = sptr->param_list; ptr; ptr = ptr->next) {
+                if(nameNodeFind(cur_param, ptr->name) == NULL) {
+                    //printf("매개 변수 %s 선언\n", ptr->name);
+                    nameListAppend(&cur_param, ptr->name, ptr->type, ptr->dec_line);
+                }
+                else {
+                    sprintf(errorBuffer, "매개 변수\'%s\' 중복선언", ptr->name);
+                    yyerror2(errorBuffer, ptr->dec_line);
+                }
+            }
+
+            for(NameList ptr = sptr->local_list; ptr; ptr = ptr->next) {
+                if(nameNodeFind(cur_local, ptr->name) == NULL) {
+                    //printf("지역 변수 %s 선언\n", ptr->name);
+                    nameListAppend(&cur_local, ptr->name, ptr->type, ptr->dec_line);
+                }
+                else {
+                    sprintf(errorBuffer, "지역 변수\'%s\' 중복선언", ptr->name);
+                    yyerror2(errorBuffer, ptr->dec_line);
+                }
             }
         }
     }
@@ -173,10 +199,10 @@ STANDARD_TYPE:
 SUBPROGRAM_DECLARATIONS:
     SUBPROGRAM_DECLARATION SUBPROGRAM_DECLARATIONS {
         $$ = $2;
-        subProgListAppned($$, ($1).name, ($1).type, ($1).param_list, ($1).local_list, ($1).dec_line);
+        subProgListAppend(&($$), ($1).name, ($1).type, ($1).param_list, ($1).local_list, ($1).dec_line);
     }
     | {
-        $$ = makeSubProgList()
+        $$ = makeSubProgList();
     }
 
 
@@ -191,21 +217,24 @@ SUBPROGRAM_DECLARATION:
 SUBPROGRAM_HEAD:
     FUNCTION ID ARGUMENTS ':' STANDARD_TYPE SEMICOLON {
         SubProgNode temp;
-        temp.name = $2;
+        //printf("%s\n", ($2));
+        strcmp(temp.name, $2);
         temp.param_list = $3;
         temp.type = FUNC;
+        $$ = temp;
     }
     | PROCEDURE ID ARGUMENTS SEMICOLON {
         SubProgNode temp;
-        temp.name = $2;
+        strcmp(temp.name, $2);
         temp.param_list = $3;
         temp.type = PROC;
+        $$ = temp;
     }
 
 
 ARGUMENTS:
     '(' PARAMETER_LIST ')' {
-        $$ = $2
+        $$ = $2;
     }
     | {
         $$ = makeNameList();

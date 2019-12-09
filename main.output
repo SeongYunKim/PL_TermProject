@@ -3,14 +3,14 @@ Terminals unused in grammar
    THEN
 
 
-State 109 충돌: 2 쉬프트/리듀스
-State 113 충돌: 1 쉬프트/리듀스
-State 120 충돌: 1 쉬프트/리듀스
-State 128 충돌: 1 쉬프트/리듀스
-State 134 충돌: 1 쉬프트/리듀스
+State 109 conflicts: 2 shift/reduce
+State 113 conflicts: 1 shift/reduce
+State 120 conflicts: 1 shift/reduce
+State 128 conflicts: 1 shift/reduce
+State 134 conflicts: 1 shift/reduce
 
 
-문법
+Grammar
 
     0 $accept: PROGRAM $end
 
@@ -129,9 +129,9 @@ $end (0) 0
 '[' (91) 7 44
 ']' (93) 7 44
 error (256)
-ID <name> (258) 1 4 5 13 14 43 44 45
-INTEGER <intData> (259) 7 56
-FLOAT <floatData> (260) 57
+ID (258) 1 4 5 13 14 43 44 45
+INTEGER (259) 7 56
+FLOAT (260) 57
 SEMICOLON (261) 1 2 13 14 18 21
 "int" (262) 8
 "float" (263) 9
@@ -167,67 +167,67 @@ Nonterminals, with rules where they appear
 
 $accept (42)
     on left: 0
-PROGRAM <name> (43)
+PROGRAM (43)
     on left: 1, on right: 0
-DECLARATIONS <nameNodeList> (44)
+DECLARATIONS (44)
     on left: 2 3, on right: 1 2 12
-IDENTIFIER_LIST <nameNodeList> (45)
+IDENTIFIER_LIST (45)
     on left: 4 5, on right: 2 5 17 18
-TYPE <intData> (46)
+TYPE (46)
     on left: 6 7, on right: 2 17 18
-STANDARD_TYPE <intData> (47)
+STANDARD_TYPE (47)
     on left: 8 9, on right: 6 7 13
-SUBPROGRAM_DECLARATIONS <subProgList> (48)
+SUBPROGRAM_DECLARATIONS (48)
     on left: 10 11, on right: 1 10
-SUBPROGRAM_DECLARATION <subProgNodeData> (49)
+SUBPROGRAM_DECLARATION (49)
     on left: 12, on right: 10
-SUBPROGRAM_HEAD <subProgNodeData> (50)
+SUBPROGRAM_HEAD (50)
     on left: 13 14, on right: 12
-ARGUMENTS <nameNodeList> (51)
+ARGUMENTS (51)
     on left: 15 16, on right: 13 14
-PARAMETER_LIST <nameNodeList> (52)
+PARAMETER_LIST (52)
     on left: 17 18, on right: 15 18
-COMPOUND_STATEMENT <name> (53)
+COMPOUND_STATEMENT (53)
     on left: 19, on right: 1 12 25
-STATEMENT_LIST <name> (54)
+STATEMENT_LIST (54)
     on left: 20 21, on right: 19 21
-STATEMENT <name> (55)
+STATEMENT (55)
     on left: 22 23 24 25 26 27 28 29 30, on right: 20 21 31 32 33 34
     35 36 37 38 39 40
-IF_STATEMENT <name> (56)
+IF_STATEMENT (56)
     on left: 31 32 33 34, on right: 26
-ELIF_STATEMENT <name> (57)
+ELIF_STATEMENT (57)
     on left: 35 36, on right: 32 33 36
-WHILE_STATEMENT <name> (58)
+WHILE_STATEMENT (58)
     on left: 37 38, on right: 27
-FOR_STATEMENT <name> (59)
+FOR_STATEMENT (59)
     on left: 39 40, on right: 28
-PRINT_STATEMENT <name> (60)
+PRINT_STATEMENT (60)
     on left: 41 42, on right: 23
-VARIABLE <name> (61)
+VARIABLE (61)
     on left: 43 44, on right: 22 58
-PROCEDURE_STATEMENT <name> (62)
+PROCEDURE_STATEMENT (62)
     on left: 45, on right: 24 59
-ACTUAL_PARAMETER_EXPRESSION <name> (63)
+ACTUAL_PARAMETER_EXPRESSION (63)
     on left: 46 47, on right: 45
-EXPRESSION_LIST <name> (64)
+EXPRESSION_LIST (64)
     on left: 48 49, on right: 46 49
-EXPRESSION <name> (65)
+EXPRESSION (65)
     on left: 50 51, on right: 22 29 31 32 33 34 35 36 37 38 39 40 42
     44 48 49
-SIMPLE_EXPRESSION <name> (66)
+SIMPLE_EXPRESSION (66)
     on left: 52 53, on right: 50 51 53
-TERM <name> (67)
+TERM (67)
     on left: 54 55, on right: 52 53 55
-FACTOR <name> (68)
+FACTOR (68)
     on left: 56 57 58 59 60 61, on right: 54 55 60 61
-SIGN <name> (69)
+SIGN (69)
     on left: 62 63, on right: 61
-RELOP <name> (70)
+RELOP (70)
     on left: 64 65 66 67 68 69, on right: 51
-ADDOP <name> (71)
+ADDOP (71)
     on left: 70 71, on right: 53
-MULTOP <name> (72)
+MULTOP (72)
     on left: 72 73, on right: 55
 
 

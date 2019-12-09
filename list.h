@@ -15,13 +15,13 @@ void errorListPrint(ErrorNode **node);
 // Name Node ===========================================================================================================
 
 typedef enum varType{
-    V_INT = 1,
-    V_INT_ARY = 2,
-    V_FLOAT = 3,
-    V_FLOAT_ARY = 4,
-    V_FUNC = 5,
-    V_PROC = 6,
-    V_UNKNOWN = 7
+    V_INT,
+    V_INT_ARY,
+    V_FLOAT,
+    V_FLOAT_ARY,
+    V_FUNC,
+    V_PROC,
+    V_UNKNOWN
 } varType;
 
 typedef struct NameNode{
@@ -32,7 +32,7 @@ typedef struct NameNode{
 }NameNode;
 typedef NameNode *NameList;
 
-NameNode *nameNodeFind(NameNode *list, char *name);
+NameNode *nameNodeFind(NameList list, char *name);
 void nameListAppend(NameList *list, char *name, varType type, int dec_line);
 void nameNodeConcat(NameList First, NameList Second);
 NameList makeNameList();
@@ -50,8 +50,10 @@ typedef struct SubProgNode {
     pType type;
     NameList param_list;
     NameList local_list;
+    NameList used_var_list;
+    struct SubProgNode *next;
 }SubProgNode;
-typedef SubProgNode * subProgList;
+typedef SubProgNode *SubProgList;
 
-void subProgListAppend(NameList *list, char *name, pType type, SubProgList param_list, SubProgList local_list, int dec_line);
+void subProgListAppend(SubProgList *list, char *name, pType type, NameList param_list, NameList local_list, NameList used_var_list, int dec_line);
 SubProgList makeSubProgList();
