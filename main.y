@@ -85,7 +85,7 @@ NameList subProgramList = NULL;
 %type <nameNodeList> EXPRESSION
 %type <nameNodeList> SIMPLE_EXPRESSION
 %type <nameNodeList> TERM
-%type <name> FACTOR
+%type <nameNodeList> FACTOR
 %type <name> SIGN
 %type <name> RELOP
 %type <name> ADDOP
@@ -133,7 +133,13 @@ PROGRAM:
             NameList cur_param = makeNameList();
             NameList cur_local = makeNameList();
 
-            nameListAppend(&subProgramList, sptr->name, sptr->type, sptr->dec_line);
+            if(nameNodeFind(subProgramList, sptr->name) == NULL) {
+                nameListAppend(&subProgramList, sptr->name, sptr->type, sptr->dec_line);
+            }
+            else {
+                sprintf(errorBuffer, "힘수\'%s\' 중복선언", sptr->name);
+                yyerror2(errorBuffer, sptr->dec_line);
+            }
 
             for(NameList ptr = sptr->param_list; ptr; ptr = ptr->next) {
                 if(nameNodeFind(cur_param, ptr->name) == NULL) {
@@ -467,36 +473,33 @@ SIMPLE_EXPRESSION:
 
 TERM:
     FACTOR {
-        $$ = makeNameList();
-        if(strcmp($1, "") != 0)
-            nameListAppend(&($$), $1, V_UNKNOWN, yylineno);
+        $$ = $1;
     }
     | FACTOR MULTOP TERM {
-        $$ = makeNameList();
-        if(strcmp($1, "") != 0)
-            nameListAppend(&($$), $1, V_UNKNOWN, yylineno);
+        $$ = $1;
         nameNodeConcat(($$), ($3));
     }
 
 
 FACTOR:
     INTEGER {
-        strcpy($$, "");
+        $$ = makeNameList();
     }
     | FLOAT {
-        strcpy($$, "");
+        $$ = makeNameList();
     }
     | VARIABLE {
-        strcpy($$, $1);
+        $$ = makeNameList();
+        nameListAppend(&($$), $1, V_UNKNOWN, yylineno);
     }
     | PROCEDURE_STATEMENT {
-        //strcpy($$, $1);
+        $$ = $1;
     }
     | OP_NOT FACTOR {
-        strcpy($$, $2);
+        $$ = $2;
     }
     | SIGN FACTOR {
-        strcpy($$, $2);
+        $$ = $2;
     }
 
 

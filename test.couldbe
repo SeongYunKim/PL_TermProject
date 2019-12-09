@@ -6,7 +6,7 @@ function plus(x: int; y: int): int;
 		return x+y
 	end
 
-function min(x: int; y: int): int;
+function plus(x: int; y: int): int;
     int a, x;
 	begin
 	    a = z;
@@ -16,6 +16,7 @@ function min(x: int; y: int): int;
 
 begin
     fuck();
-    plus(a, 4)
+    a = fuck(3, 4);
+    print(a)
 end
 
