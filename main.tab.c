@@ -498,13 +498,13 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint16 yyrline[] =
 {
        0,   112,   112,   192,   200,   206,   210,   218,   221,   230,
-     233,   239,   243,   249,   258,   266,   276,   279,   285,   292,
-     303,   309,   312,   319,   323,   326,   329,   332,   335,   338,
-     341,   344,   350,   354,   359,   365,   373,   377,   385,   389,
-     397,   402,   411,   414,   420,   423,   429,   436,   439,   445,
-     448,   455,   458,   465,   468,   475,   478,   485,   488,   491,
-     495,   498,   501,   507,   508,   512,   513,   514,   515,   516,
-     517,   522,   523,   527,   528
+     233,   239,   243,   249,   259,   267,   277,   280,   286,   293,
+     304,   310,   313,   320,   324,   327,   330,   333,   336,   339,
+     342,   345,   351,   355,   360,   366,   374,   378,   386,   390,
+     398,   403,   412,   415,   421,   424,   430,   437,   440,   446,
+     449,   456,   459,   466,   469,   476,   479,   486,   489,   492,
+     496,   499,   502,   508,   509,   513,   514,   515,   516,   517,
+     518,   523,   524,   528,   529
 };
 #endif
 
@@ -1551,13 +1551,14 @@ yyreduce:
         SubProgNode temp = (yyvsp[-2].subProgNodeData);
         temp.local_list = (yyvsp[-1].nameNodeList);
         temp.used_var_list = (yyvsp[0].nameNodeList);
+        temp.dec_line = yylineno;
         (yyval.subProgNodeData) = temp;
     }
-#line 1557 "main.tab.c" /* yacc.c:1646  */
+#line 1558 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 258 "main.y" /* yacc.c:1646  */
+#line 259 "main.y" /* yacc.c:1646  */
     {
         SubProgNode temp;
         //printf("%s\n", ($2));
@@ -1566,11 +1567,11 @@ yyreduce:
         temp.type = FUNC;
         (yyval.subProgNodeData) = temp;
     }
-#line 1570 "main.tab.c" /* yacc.c:1646  */
+#line 1571 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 266 "main.y" /* yacc.c:1646  */
+#line 267 "main.y" /* yacc.c:1646  */
     {
         SubProgNode temp;
         strcpy(temp.name, (yyvsp[-2].name));
@@ -1578,27 +1579,27 @@ yyreduce:
         temp.type = PROC;
         (yyval.subProgNodeData) = temp;
     }
-#line 1582 "main.tab.c" /* yacc.c:1646  */
+#line 1583 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 276 "main.y" /* yacc.c:1646  */
+#line 277 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-1].nameNodeList);
     }
-#line 1590 "main.tab.c" /* yacc.c:1646  */
+#line 1591 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 279 "main.y" /* yacc.c:1646  */
+#line 280 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = makeNameList();
     }
-#line 1598 "main.tab.c" /* yacc.c:1646  */
+#line 1599 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 285 "main.y" /* yacc.c:1646  */
+#line 286 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         // list 저장된 각 배열에 대하여 type 지정
@@ -1606,11 +1607,11 @@ yyreduce:
             ptr->type = (yyvsp[0].intData);
         }
     }
-#line 1610 "main.tab.c" /* yacc.c:1646  */
+#line 1611 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 292 "main.y" /* yacc.c:1646  */
+#line 293 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-4].nameNodeList);
         // list 저장된 각 배열에 대하여 type 지정
@@ -1619,454 +1620,454 @@ yyreduce:
         }
         nameNodeConcat(((yyval.nameNodeList)), ((yyvsp[0].nameNodeList)));
     }
-#line 1623 "main.tab.c" /* yacc.c:1646  */
+#line 1624 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 303 "main.y" /* yacc.c:1646  */
+#line 304 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-1].nameNodeList);
     }
-#line 1631 "main.tab.c" /* yacc.c:1646  */
+#line 1632 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 309 "main.y" /* yacc.c:1646  */
+#line 310 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1639 "main.tab.c" /* yacc.c:1646  */
+#line 1640 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 312 "main.y" /* yacc.c:1646  */
+#line 313 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1648 "main.tab.c" /* yacc.c:1646  */
+#line 1649 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 319 "main.y" /* yacc.c:1646  */
+#line 320 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
         nameListAppend(&((yyval.nameNodeList)), (yyvsp[-2].name), V_UNKNOWN, yylineno);
     }
-#line 1657 "main.tab.c" /* yacc.c:1646  */
+#line 1658 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 323 "main.y" /* yacc.c:1646  */
+#line 324 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1665 "main.tab.c" /* yacc.c:1646  */
+#line 1666 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 326 "main.y" /* yacc.c:1646  */
+#line 327 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1673 "main.tab.c" /* yacc.c:1646  */
+#line 1674 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 329 "main.y" /* yacc.c:1646  */
+#line 330 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1681 "main.tab.c" /* yacc.c:1646  */
+#line 1682 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 332 "main.y" /* yacc.c:1646  */
+#line 333 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1689 "main.tab.c" /* yacc.c:1646  */
+#line 1690 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 335 "main.y" /* yacc.c:1646  */
+#line 336 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1697 "main.tab.c" /* yacc.c:1646  */
+#line 1698 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 338 "main.y" /* yacc.c:1646  */
+#line 339 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1705 "main.tab.c" /* yacc.c:1646  */
+#line 1706 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 341 "main.y" /* yacc.c:1646  */
+#line 342 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1713 "main.tab.c" /* yacc.c:1646  */
+#line 1714 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 344 "main.y" /* yacc.c:1646  */
+#line 345 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = makeNameList();
     }
-#line 1721 "main.tab.c" /* yacc.c:1646  */
+#line 1722 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 350 "main.y" /* yacc.c:1646  */
+#line 351 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1730 "main.tab.c" /* yacc.c:1646  */
+#line 1731 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 354 "main.y" /* yacc.c:1646  */
+#line 355 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-3].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-1].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1740 "main.tab.c" /* yacc.c:1646  */
+#line 1741 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 359 "main.y" /* yacc.c:1646  */
+#line 360 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-6].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-4].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-3].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1751 "main.tab.c" /* yacc.c:1646  */
+#line 1752 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 365 "main.y" /* yacc.c:1646  */
+#line 366 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-5].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-3].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1761 "main.tab.c" /* yacc.c:1646  */
+#line 1762 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 373 "main.y" /* yacc.c:1646  */
+#line 374 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1770 "main.tab.c" /* yacc.c:1646  */
+#line 1771 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 377 "main.y" /* yacc.c:1646  */
+#line 378 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-3].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-1].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1780 "main.tab.c" /* yacc.c:1646  */
+#line 1781 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 385 "main.y" /* yacc.c:1646  */
+#line 386 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1789 "main.tab.c" /* yacc.c:1646  */
+#line 1790 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 389 "main.y" /* yacc.c:1646  */
+#line 390 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-5].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-3].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1799 "main.tab.c" /* yacc.c:1646  */
+#line 1800 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 397 "main.y" /* yacc.c:1646  */
+#line 398 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-4].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-2].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1809 "main.tab.c" /* yacc.c:1646  */
+#line 1810 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 402 "main.y" /* yacc.c:1646  */
+#line 403 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-7].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-5].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-3].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1820 "main.tab.c" /* yacc.c:1646  */
+#line 1821 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 411 "main.y" /* yacc.c:1646  */
+#line 412 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = makeNameList();
     }
-#line 1828 "main.tab.c" /* yacc.c:1646  */
+#line 1829 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 414 "main.y" /* yacc.c:1646  */
+#line 415 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-1].nameNodeList);
     }
-#line 1836 "main.tab.c" /* yacc.c:1646  */
+#line 1837 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 420 "main.y" /* yacc.c:1646  */
+#line 421 "main.y" /* yacc.c:1646  */
     {
         strcpy((yyval.name), (yyvsp[0].name));
     }
-#line 1844 "main.tab.c" /* yacc.c:1646  */
+#line 1845 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 423 "main.y" /* yacc.c:1646  */
+#line 424 "main.y" /* yacc.c:1646  */
     {
         strcpy((yyval.name), (yyvsp[-3].name));
     }
-#line 1852 "main.tab.c" /* yacc.c:1646  */
+#line 1853 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 429 "main.y" /* yacc.c:1646  */
+#line 430 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-1].nameNodeList);
         nameListAppend(&((yyval.nameNodeList)), (yyvsp[-3].name), V_FUNC, yylineno);
     }
-#line 1861 "main.tab.c" /* yacc.c:1646  */
+#line 1862 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 436 "main.y" /* yacc.c:1646  */
+#line 437 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1869 "main.tab.c" /* yacc.c:1646  */
+#line 1870 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 439 "main.y" /* yacc.c:1646  */
+#line 440 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = makeNameList();
     }
-#line 1877 "main.tab.c" /* yacc.c:1646  */
+#line 1878 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 445 "main.y" /* yacc.c:1646  */
+#line 446 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1885 "main.tab.c" /* yacc.c:1646  */
+#line 1886 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 448 "main.y" /* yacc.c:1646  */
+#line 449 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         nameNodeConcat(((yyval.nameNodeList)), ((yyvsp[0].nameNodeList)));
     }
-#line 1894 "main.tab.c" /* yacc.c:1646  */
+#line 1895 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 455 "main.y" /* yacc.c:1646  */
+#line 456 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1902 "main.tab.c" /* yacc.c:1646  */
+#line 1903 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 458 "main.y" /* yacc.c:1646  */
+#line 459 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         nameNodeConcat(((yyval.nameNodeList)), ((yyvsp[0].nameNodeList)));
     }
-#line 1911 "main.tab.c" /* yacc.c:1646  */
+#line 1912 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 465 "main.y" /* yacc.c:1646  */
+#line 466 "main.y" /* yacc.c:1646  */
     {
     (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1919 "main.tab.c" /* yacc.c:1646  */
+#line 1920 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 468 "main.y" /* yacc.c:1646  */
+#line 469 "main.y" /* yacc.c:1646  */
     {
     (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
     nameNodeConcat(((yyval.nameNodeList)), ((yyvsp[0].nameNodeList)));
     }
-#line 1928 "main.tab.c" /* yacc.c:1646  */
+#line 1929 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 475 "main.y" /* yacc.c:1646  */
+#line 476 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1936 "main.tab.c" /* yacc.c:1646  */
+#line 1937 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 478 "main.y" /* yacc.c:1646  */
+#line 479 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         nameNodeConcat(((yyval.nameNodeList)), ((yyvsp[0].nameNodeList)));
     }
-#line 1945 "main.tab.c" /* yacc.c:1646  */
+#line 1946 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 485 "main.y" /* yacc.c:1646  */
+#line 486 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = makeNameList();
     }
-#line 1953 "main.tab.c" /* yacc.c:1646  */
+#line 1954 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 488 "main.y" /* yacc.c:1646  */
+#line 489 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = makeNameList();
     }
-#line 1961 "main.tab.c" /* yacc.c:1646  */
+#line 1962 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 491 "main.y" /* yacc.c:1646  */
+#line 492 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = makeNameList();
         nameListAppend(&((yyval.nameNodeList)), (yyvsp[0].name), V_UNKNOWN, yylineno);
     }
-#line 1970 "main.tab.c" /* yacc.c:1646  */
+#line 1971 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 495 "main.y" /* yacc.c:1646  */
+#line 496 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1978 "main.tab.c" /* yacc.c:1646  */
+#line 1979 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 498 "main.y" /* yacc.c:1646  */
+#line 499 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1986 "main.tab.c" /* yacc.c:1646  */
+#line 1987 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 501 "main.y" /* yacc.c:1646  */
+#line 502 "main.y" /* yacc.c:1646  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1994 "main.tab.c" /* yacc.c:1646  */
+#line 1995 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 507 "main.y" /* yacc.c:1646  */
+#line 508 "main.y" /* yacc.c:1646  */
     {}
-#line 2000 "main.tab.c" /* yacc.c:1646  */
+#line 2001 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 508 "main.y" /* yacc.c:1646  */
+#line 509 "main.y" /* yacc.c:1646  */
     {}
-#line 2006 "main.tab.c" /* yacc.c:1646  */
+#line 2007 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 512 "main.y" /* yacc.c:1646  */
+#line 513 "main.y" /* yacc.c:1646  */
     {}
-#line 2012 "main.tab.c" /* yacc.c:1646  */
+#line 2013 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 513 "main.y" /* yacc.c:1646  */
+#line 514 "main.y" /* yacc.c:1646  */
     {}
-#line 2018 "main.tab.c" /* yacc.c:1646  */
+#line 2019 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 514 "main.y" /* yacc.c:1646  */
+#line 515 "main.y" /* yacc.c:1646  */
     {}
-#line 2024 "main.tab.c" /* yacc.c:1646  */
+#line 2025 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 515 "main.y" /* yacc.c:1646  */
+#line 516 "main.y" /* yacc.c:1646  */
     {}
-#line 2030 "main.tab.c" /* yacc.c:1646  */
+#line 2031 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 516 "main.y" /* yacc.c:1646  */
+#line 517 "main.y" /* yacc.c:1646  */
     {}
-#line 2036 "main.tab.c" /* yacc.c:1646  */
+#line 2037 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 517 "main.y" /* yacc.c:1646  */
+#line 518 "main.y" /* yacc.c:1646  */
     {}
-#line 2042 "main.tab.c" /* yacc.c:1646  */
+#line 2043 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 522 "main.y" /* yacc.c:1646  */
+#line 523 "main.y" /* yacc.c:1646  */
     {}
-#line 2048 "main.tab.c" /* yacc.c:1646  */
+#line 2049 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 523 "main.y" /* yacc.c:1646  */
+#line 524 "main.y" /* yacc.c:1646  */
     {}
-#line 2054 "main.tab.c" /* yacc.c:1646  */
+#line 2055 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 527 "main.y" /* yacc.c:1646  */
+#line 528 "main.y" /* yacc.c:1646  */
     {}
-#line 2060 "main.tab.c" /* yacc.c:1646  */
+#line 2061 "main.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 528 "main.y" /* yacc.c:1646  */
+#line 529 "main.y" /* yacc.c:1646  */
     {}
-#line 2066 "main.tab.c" /* yacc.c:1646  */
+#line 2067 "main.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2070 "main.tab.c" /* yacc.c:1646  */
+#line 2071 "main.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2294,7 +2295,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 530 "main.y" /* yacc.c:1906  */
+#line 531 "main.y" /* yacc.c:1906  */
 
 
 int yyerror(char *s){

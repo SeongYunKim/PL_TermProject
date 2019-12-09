@@ -250,6 +250,7 @@ SUBPROGRAM_DECLARATION:
         SubProgNode temp = $1;
         temp.local_list = $2;
         temp.used_var_list = $3;
+        temp.dec_line = yylineno;
         $$ = temp;
     }
 
