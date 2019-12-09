@@ -8,7 +8,7 @@
 void errorNodeAppend(ErrorNode **list, char *code, int line) {
     ErrorNode *curErrorNode = *list;
     ErrorNode *newErrorNode = (ErrorNode *) malloc(sizeof(ErrorNode));
-    newErrorNode->code = code;
+    strcpy(newErrorNode->code, code);
     newErrorNode->line = line;
     newErrorNode->next = NULL;
     if (*list == NULL) {
@@ -27,7 +27,7 @@ void errorListPrint(ErrorNode **list) {
         printf("Error (line %d) : %s\n", curErrorNode->line, curErrorNode->code);
         curErrorNode = curErrorNode->next;
     }
-    printf("Error on (line %d) : %s\n", curErrorNode->line, curErrorNode->code);
+    printf("Error (line %d) : %s\n", curErrorNode->line, curErrorNode->code);
 }
 
 // Name Node ===========================================================================================================
@@ -79,13 +79,14 @@ NameList makeNameList() {
 }
 
 // checkNode ===========================================================================================================
-void subProgListAppend(SubProgList *list, char *name, pType type, NameList param_list, NameList local_list, int dec_line){
+void subProgListAppend(SubProgList *list, char *name, pType type, NameList param_list, NameList local_list, NameList used_var_list, int dec_line){
     SubProgList curNode = *list;
     SubProgList newNode = (SubProgList)malloc(sizeof(SubProgNode));
     strcpy(newNode->name, name);
     newNode->dec_line = dec_line;
     newNode->param_list = param_list;
     newNode->local_list = local_list;
+    newNode->used_var_list = used_var_list;
     newNode->type = type;
     if (*list == NULL) {
         *list = newNode;

@@ -70,21 +70,21 @@ NameList parameterVarList = NULL;
 %type <subProgNodeData> SUBPROGRAM_HEAD
 %type <nameNodeList> ARGUMENTS
 %type <nameNodeList> PARAMETER_LIST
-%type <name> COMPOUND_STATEMENT
-%type <name> STATEMENT_LIST
-%type <name> STATEMENT
-%type <name> IF_STATEMENT
-%type <name> ELIF_STATEMENT
-%type <name> WHILE_STATEMENT
-%type <name> FOR_STATEMENT
-%type <name> PRINT_STATEMENT
+%type <nameNodeList> COMPOUND_STATEMENT
+%type <nameNodeList> STATEMENT_LIST
+%type <nameNodeList> STATEMENT
+%type <nameNodeList> IF_STATEMENT
+%type <nameNodeList> ELIF_STATEMENT
+%type <nameNodeList> WHILE_STATEMENT
+%type <nameNodeList> FOR_STATEMENT
+%type <nameNodeList> PRINT_STATEMENT
 %type <name> VARIABLE
-%type <name> PROCEDURE_STATEMENT
-%type <name> ACTUAL_PARAMETER_EXPRESSION
-%type <name> EXPRESSION_LIST
-%type <name> EXPRESSION
-%type <name> SIMPLE_EXPRESSION
-%type <name> TERM
+%type <nameNodeList> PROCEDURE_STATEMENT
+%type <nameNodeList> ACTUAL_PARAMETER_EXPRESSION
+%type <nameNodeList> EXPRESSION_LIST
+%type <nameNodeList> EXPRESSION
+%type <nameNodeList> SIMPLE_EXPRESSION
+%type <nameNodeList> TERM
 %type <name> FACTOR
 %type <name> SIGN
 %type <name> RELOP
@@ -122,6 +122,13 @@ PROGRAM:
             }
         }
 
+        for(NameList ptr = $6; ptr;ptr = ptr->next) {
+            if(nameNodeFind(globalVarList, ptr->name) == NULL && ptr->type != V_FUNC) {
+                sprintf(errorBuffer, "선언되지 않은 변수\'%s\'", ptr->name);
+                yyerror2(errorBuffer, ptr->dec_line);
+            }
+        }
+
         for(SubProgList sptr = $5; sptr; sptr = sptr->next) {
             NameList cur_param = makeNameList();
             NameList cur_local = makeNameList();
@@ -137,12 +144,19 @@ PROGRAM:
             }
 
             for(NameList ptr = sptr->local_list; ptr; ptr = ptr->next) {
-                if(nameNodeFind(cur_local, ptr->name) == NULL) {
+                if(nameNodeFind(cur_local, ptr->name) == NULL && nameNodeFind(cur_param, ptr->name) == NULL) {
                     //printf("지역 변수 %s 선언\n", ptr->name);
                     nameListAppend(&cur_local, ptr->name, ptr->type, ptr->dec_line);
                 }
                 else {
                     sprintf(errorBuffer, "지역 변수\'%s\' 중복선언", ptr->name);
+                    yyerror2(errorBuffer, ptr->dec_line);
+                }
+            }
+
+            for(NameList ptr = sptr->used_var_list; ptr;ptr = ptr->next) {
+                if(findVar(ptr->name, cur_local, cur_param) == NULL && ptr->type != V_FUNC) {
+                    sprintf(errorBuffer, "선언되지 않은 변수\'%s\'", ptr->name);
                     yyerror2(errorBuffer, ptr->dec_line);
                 }
             }
@@ -199,7 +213,7 @@ STANDARD_TYPE:
 SUBPROGRAM_DECLARATIONS:
     SUBPROGRAM_DECLARATION SUBPROGRAM_DECLARATIONS {
         $$ = $2;
-        subProgListAppend(&($$), ($1).name, ($1).type, ($1).param_list, ($1).local_list, ($1).dec_line);
+        subProgListAppend(&($$), ($1).name, ($1).type, ($1).param_list, ($1).local_list, ($1).used_var_list, ($1).dec_line);
     }
     | {
         $$ = makeSubProgList();
@@ -210,6 +224,7 @@ SUBPROGRAM_DECLARATION:
     SUBPROGRAM_HEAD DECLARATIONS COMPOUND_STATEMENT {
         SubProgNode temp = $1;
         temp.local_list = $2;
+        temp.used_var_list = $3;
         $$ = temp;
     }
 
@@ -218,14 +233,14 @@ SUBPROGRAM_HEAD:
     FUNCTION ID ARGUMENTS ':' STANDARD_TYPE SEMICOLON {
         SubProgNode temp;
         //printf("%s\n", ($2));
-        strcmp(temp.name, $2);
+        strcpy(temp.name, $2);
         temp.param_list = $3;
         temp.type = FUNC;
         $$ = temp;
     }
     | PROCEDURE ID ARGUMENTS SEMICOLON {
         SubProgNode temp;
-        strcmp(temp.name, $2);
+        strcpy(temp.name, $2);
         temp.param_list = $3;
         temp.type = PROC;
         $$ = temp;
@@ -260,94 +275,210 @@ PARAMETER_LIST:
 
 
 COMPOUND_STATEMENT:
-    BODY_BEGIN STATEMENT_LIST BODY_END {}
+    BODY_BEGIN STATEMENT_LIST BODY_END {
+        $$ = $2;
+    }
 
 
 STATEMENT_LIST:
-    STATEMENT {}
-    | STATEMENT SEMICOLON STATEMENT_LIST {}
+    STATEMENT {
+        $$ = $1;
+    }
+    | STATEMENT SEMICOLON STATEMENT_LIST {
+        $$ = $1;
+        nameNodeConcat($$, $3);
+    }
 
 
 STATEMENT:
-    VARIABLE '=' EXPRESSION {}
-    | PRINT_STATEMENT {}
-    | PROCEDURE_STATEMENT {}
-    | COMPOUND_STATEMENT {}
-    | IF_STATEMENT {}
-    | WHILE_STATEMENT {}
-    | FOR_STATEMENT {}
-    | RETURN EXPRESSION {}
-    | NOP {}
+    VARIABLE '=' EXPRESSION {
+        $$ = $3;
+        nameListAppend(&($$), $1, V_UNKNOWN, yylineno);
+    }
+    | PRINT_STATEMENT {
+        $$ = $1;
+    }
+    | PROCEDURE_STATEMENT {
+        $$ = $1;
+    }
+    | COMPOUND_STATEMENT {
+        $$ = $1;
+    }
+    | IF_STATEMENT {
+        $$ = $1;
+    }
+    | WHILE_STATEMENT {
+        $$ = $1;
+    }
+    | FOR_STATEMENT {
+        $$ = $1;
+    }
+    | RETURN EXPRESSION {
+        $$ = $2;
+    }
+    | NOP {
+        $$ = makeNameList();
+    }
 
 
 IF_STATEMENT:
-    IF EXPRESSION ':' STATEMENT {}
-    | IF EXPRESSION ':' STATEMENT ELIF_STATEMENT {}
-    | IF EXPRESSION ':' STATEMENT ELIF_STATEMENT ELSE ':' STATEMENT {}
-    | IF EXPRESSION ':' STATEMENT ELSE ':' STATEMENT {}
+    IF EXPRESSION ':' STATEMENT {
+        $$ = $2;
+        nameNodeConcat($$, $4);
+    }
+    | IF EXPRESSION ':' STATEMENT ELIF_STATEMENT {
+        $$ = $2;
+        nameNodeConcat($$, $4);
+        nameNodeConcat($$, $5);
+    }
+    | IF EXPRESSION ':' STATEMENT ELIF_STATEMENT ELSE ':' STATEMENT {
+        $$ = $2;
+        nameNodeConcat($$, $4);
+        nameNodeConcat($$, $5);
+        nameNodeConcat($$, $8);
+    }
+    | IF EXPRESSION ':' STATEMENT ELSE ':' STATEMENT {
+        $$ = $2;
+        nameNodeConcat($$, $4);
+        nameNodeConcat($$, $7);
+    }
 
 
 ELIF_STATEMENT:
-    ELIF EXPRESSION ':' STATEMENT {}
-    | ELIF EXPRESSION ':' STATEMENT ELIF_STATEMENT {}
+    ELIF EXPRESSION ':' STATEMENT {
+        $$ = $2;
+        nameNodeConcat($$, $4);
+    }
+    | ELIF EXPRESSION ':' STATEMENT ELIF_STATEMENT {
+        $$ = $2;
+        nameNodeConcat($$, $4);
+        nameNodeConcat($$, $5);
+    }
 
 
 WHILE_STATEMENT:
-    WHILE EXPRESSION ':' STATEMENT {}
-    | WHILE EXPRESSION ':' STATEMENT ELSE ':' STATEMENT {}
+    WHILE EXPRESSION ':' STATEMENT {
+        $$ = $2;
+        nameNodeConcat($$, $4);
+    }
+    | WHILE EXPRESSION ':' STATEMENT ELSE ':' STATEMENT {
+        $$ = $2;
+        nameNodeConcat($$, $4);
+        nameNodeConcat($$, $7);
+    }
 
 
 FOR_STATEMENT:
-    FOR EXPRESSION IN EXPRESSION ':' STATEMENT {}
-    | FOR EXPRESSION IN EXPRESSION ':' STATEMENT ELSE ':' STATEMENT {}
+    FOR EXPRESSION IN EXPRESSION ':' STATEMENT {
+        $$ = $2;
+        nameNodeConcat($$, $4);
+        nameNodeConcat($$, $6);
+    }
+    | FOR EXPRESSION IN EXPRESSION ':' STATEMENT ELSE ':' STATEMENT {
+        $$ = $2;
+        nameNodeConcat($$, $4);
+        nameNodeConcat($$, $6);
+        nameNodeConcat($$, $9);
+    }
 
 
 PRINT_STATEMENT:
-    PRINT {}
-    | PRINT '(' EXPRESSION ')' {}
+    PRINT {
+        $$ = makeNameList();
+    }
+    | PRINT '(' EXPRESSION ')' {
+        $$ = $3;
+    }
 
 
 VARIABLE:
-    ID {}
-    | ID '[' EXPRESSION ']' {}
+    ID {
+        strcpy($$, $1);
+    }
+    | ID '[' EXPRESSION ']' {
+        strcpy($$, $1);
+    }
 
 
 PROCEDURE_STATEMENT:
-    ID '(' ACTUAL_PARAMETER_EXPRESSION ')' {}
+    ID '(' ACTUAL_PARAMETER_EXPRESSION ')' {
+        $$ = $3;
+        nameListAppend(&($$), $1, V_FUNC, yylineno);
+    }
 
 
 ACTUAL_PARAMETER_EXPRESSION:
-    EXPRESSION_LIST {}
-    | {}
+    EXPRESSION_LIST {
+        $$ = $1;
+    }
+    | {
+        $$ = makeNameList();
+    }
 
 
 EXPRESSION_LIST:
-    EXPRESSION {}
-    | EXPRESSION ',' EXPRESSION_LIST {}
+    EXPRESSION {
+        $$ = $1;
+    }
+    | EXPRESSION ',' EXPRESSION_LIST {
+        $$ = $1;
+        nameNodeConcat(($$), ($3));
+    }
 
 
 EXPRESSION:
-    SIMPLE_EXPRESSION {}
-    | SIMPLE_EXPRESSION RELOP SIMPLE_EXPRESSION {}
+    SIMPLE_EXPRESSION {
+        $$ = $1;
+    }
+    | SIMPLE_EXPRESSION RELOP SIMPLE_EXPRESSION {
+        $$ = $1;
+        nameNodeConcat(($$), ($3));
+    }
 
 
 SIMPLE_EXPRESSION:
-    TERM {}
-    | TERM ADDOP SIMPLE_EXPRESSION {}
+    TERM {
+    $$ = $1;
+    }
+    | TERM ADDOP SIMPLE_EXPRESSION {
+    $$ = $1;
+    nameNodeConcat(($$), ($3));
+    }
 
 
 TERM:
-    FACTOR {}
-    | FACTOR MULTOP TERM {}
+    FACTOR {
+        $$ = makeNameList();
+        if(strcmp($1, "") != 0)
+            nameListAppend(&($$), $1, V_UNKNOWN, yylineno);
+    }
+    | FACTOR MULTOP TERM {
+        $$ = makeNameList();
+        if(strcmp($1, "") != 0)
+            nameListAppend(&($$), $1, V_UNKNOWN, yylineno);
+        nameNodeConcat(($$), ($3));
+    }
 
 
 FACTOR:
-    INTEGER {}
-    | FLOAT {}
-    | VARIABLE {}
-    | PROCEDURE_STATEMENT {}
-    | OP_NOT FACTOR {}
-    | SIGN FACTOR {}
+    INTEGER {
+        strcpy($$, "");
+    }
+    | FLOAT {
+        strcpy($$, "");
+    }
+    | VARIABLE {
+        strcpy($$, $1);
+    }
+    | PROCEDURE_STATEMENT {
+        //strcpy($$, $1);
+    }
+    | OP_NOT FACTOR {
+        strcpy($$, $2);
+    }
+    | SIGN FACTOR {
+        strcpy($$, $2);
+    }
 
 
 SIGN:

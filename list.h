@@ -3,7 +3,7 @@
 // Error Node ==========================================================================================================
 
 typedef struct ErrorNode{
-    char *code;
+    char code[1000];
     int line;
     //struct ErrorList *prev;
     struct ErrorNode *next;
