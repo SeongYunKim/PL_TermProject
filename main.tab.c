@@ -1,8 +1,9 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.3.2.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
+   Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -40,11 +41,14 @@
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
+/* Undocumented macros, especially those whose name start with YY_,
+   are private implementation details.  Do not rely on them.  */
+
 /* Identify Bison output.  */
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.4"
+#define YYBISON_VERSION "3.3.2"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -61,8 +65,8 @@
 
 
 
-/* Copy the first part of user declarations.  */
-#line 1 "main.y" /* yacc.c:339  */
+/* First part of user prologue.  */
+#line 1 "main.y" /* yacc.c:337  */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -88,13 +92,16 @@ NameList globalVarList = NULL;
 NameList subProgramList = NULL;
 //NameList parameterVarList = NULL;
 
-#line 92 "main.tab.c" /* yacc.c:339  */
-
+#line 96 "main.tab.c" /* yacc.c:337  */
 # ifndef YY_NULLPTR
-#  if defined __cplusplus && 201103L <= __cplusplus
-#   define YY_NULLPTR nullptr
+#  if defined __cplusplus
+#   if 201103L <= __cplusplus
+#    define YY_NULLPTR nullptr
+#   else
+#    define YY_NULLPTR 0
+#   endif
 #  else
-#   define YY_NULLPTR 0
+#   define YY_NULLPTR ((void*)0)
 #  endif
 # endif
 
@@ -118,12 +125,12 @@ NameList subProgramList = NULL;
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 94 "main.y" /* yacc.c:355  */
+#line 94 "main.y" /* yacc.c:352  */
 
     #include "list.h"
     #include "checknode.h"
 
-#line 127 "main.tab.c" /* yacc.c:355  */
+#line 134 "main.tab.c" /* yacc.c:352  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -170,7 +177,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 99 "main.y" /* yacc.c:355  */
+#line 99 "main.y" /* yacc.c:352  */
 
 	char name[1000];
 	int intData;
@@ -180,7 +187,7 @@ union YYSTYPE
 	SubProgNode subProgNodeData;
 	//varType typeData;
 
-#line 184 "main.tab.c" /* yacc.c:355  */
+#line 191 "main.tab.c" /* yacc.c:352  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -195,9 +202,7 @@ int yyparse (void);
 
 #endif /* !YY_YY_MAIN_TAB_H_INCLUDED  */
 
-/* Copy the second part of user declarations.  */
 
-#line 201 "main.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -218,13 +223,13 @@ typedef signed char yytype_int8;
 #ifdef YYTYPE_UINT16
 typedef YYTYPE_UINT16 yytype_uint16;
 #else
-typedef unsigned short int yytype_uint16;
+typedef unsigned short yytype_uint16;
 #endif
 
 #ifdef YYTYPE_INT16
 typedef YYTYPE_INT16 yytype_int16;
 #else
-typedef short int yytype_int16;
+typedef short yytype_int16;
 #endif
 
 #ifndef YYSIZE_T
@@ -236,7 +241,7 @@ typedef short int yytype_int16;
 #  include <stddef.h> /* INFRINGES ON USER NAME SPACE */
 #  define YYSIZE_T size_t
 # else
-#  define YYSIZE_T unsigned int
+#  define YYSIZE_T unsigned
 # endif
 #endif
 
@@ -272,15 +277,6 @@ typedef short int yytype_int16;
 # define YY_ATTRIBUTE_UNUSED YY_ATTRIBUTE ((__unused__))
 #endif
 
-#if !defined _Noreturn \
-     && (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112)
-# if defined _MSC_VER && 1200 <= _MSC_VER
-#  define _Noreturn __declspec (noreturn)
-# else
-#  define _Noreturn YY_ATTRIBUTE ((__noreturn__))
-# endif
-#endif
-
 /* Suppress unused-variable warnings by "using" E.  */
 #if ! defined lint || defined __GNUC__
 # define YYUSE(E) ((void) (E))
@@ -288,7 +284,7 @@ typedef short int yytype_int16;
 # define YYUSE(E) /* empty */
 #endif
 
-#if defined __GNUC__ && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
+#if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
 # define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
     _Pragma ("GCC diagnostic push") \
@@ -450,16 +446,16 @@ union yyalloc
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  139
 
-/* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
-   by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   289
 
+/* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
+   as returned by yylex, with out-of-bounds checking.  */
 #define YYTRANSLATE(YYX)                                                \
-  ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
+  ((unsigned) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
-   as returned by yylex, without out-of-bounds checking.  */
+   as returned by yylex.  */
 static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -710,22 +706,22 @@ static const yytype_uint8 yyr2[] =
 
 #define YYRECOVERING()  (!!yyerrstatus)
 
-#define YYBACKUP(Token, Value)                                  \
-do                                                              \
-  if (yychar == YYEMPTY)                                        \
-    {                                                           \
-      yychar = (Token);                                         \
-      yylval = (Value);                                         \
-      YYPOPSTACK (yylen);                                       \
-      yystate = *yyssp;                                         \
-      goto yybackup;                                            \
-    }                                                           \
-  else                                                          \
-    {                                                           \
-      yyerror (YY_("syntax error: cannot back up")); \
-      YYERROR;                                                  \
-    }                                                           \
-while (0)
+#define YYBACKUP(Token, Value)                                    \
+  do                                                              \
+    if (yychar == YYEMPTY)                                        \
+      {                                                           \
+        yychar = (Token);                                         \
+        yylval = (Value);                                         \
+        YYPOPSTACK (yylen);                                       \
+        yystate = *yyssp;                                         \
+        goto yybackup;                                            \
+      }                                                           \
+    else                                                          \
+      {                                                           \
+        yyerror (YY_("syntax error: cannot back up")); \
+        YYERROR;                                                  \
+      }                                                           \
+  while (0)
 
 /* Error token number */
 #define YYTERROR        1
@@ -765,37 +761,37 @@ do {                                                                      \
 } while (0)
 
 
-/*----------------------------------------.
-| Print this symbol's value on YYOUTPUT.  |
-`----------------------------------------*/
+/*-----------------------------------.
+| Print this symbol's value on YYO.  |
+`-----------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_value_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
 {
-  FILE *yyo = yyoutput;
-  YYUSE (yyo);
+  FILE *yyoutput = yyo;
+  YYUSE (yyoutput);
   if (!yyvaluep)
     return;
 # ifdef YYPRINT
   if (yytype < YYNTOKENS)
-    YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
+    YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
 # endif
   YYUSE (yytype);
 }
 
 
-/*--------------------------------.
-| Print this symbol on YYOUTPUT.  |
-`--------------------------------*/
+/*---------------------------.
+| Print this symbol on YYO.  |
+`---------------------------*/
 
 static void
-yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
 {
-  YYFPRINTF (yyoutput, "%s %s (",
+  YYFPRINTF (yyo, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
 
-  yy_symbol_value_print (yyoutput, yytype, yyvaluep);
-  YYFPRINTF (yyoutput, ")");
+  yy_symbol_value_print (yyo, yytype, yyvaluep);
+  YYFPRINTF (yyo, ")");
 }
 
 /*------------------------------------------------------------------.
@@ -829,7 +825,7 @@ do {                                                            \
 static void
 yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
 {
-  unsigned long int yylno = yyrline[yyrule];
+  unsigned long yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
   int yyi;
   YYFPRINTF (stderr, "Reducing stack by rule %d (line %lu):\n",
@@ -840,7 +836,7 @@ yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr,
                        yystos[yyssp[yyi + 1 - yynrhs]],
-                       &(yyvsp[(yyi + 1) - (yynrhs)])
+                       &yyvsp[(yyi + 1) - (yynrhs)]
                                               );
       YYFPRINTF (stderr, "\n");
     }
@@ -944,7 +940,10 @@ yytnamerr (char *yyres, const char *yystr)
           case '\\':
             if (*++yyp != '\\')
               goto do_not_strip_quotes;
-            /* Fall through.  */
+            else
+              goto append;
+
+          append:
           default:
             if (yyres)
               yyres[yyn] = *yyp;
@@ -962,7 +961,7 @@ yytnamerr (char *yyres, const char *yystr)
   if (! yyres)
     return yystrlen (yystr);
 
-  return yystpcpy (yyres, yystr) - yyres;
+  return (YYSIZE_T) (yystpcpy (yyres, yystr) - yyres);
 }
 # endif
 
@@ -1040,10 +1039,10 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
                 yyarg[yycount++] = yytname[yyx];
                 {
                   YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
-                  if (! (yysize <= yysize1
-                         && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
+                  if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
+                    yysize = yysize1;
+                  else
                     return 2;
-                  yysize = yysize1;
                 }
               }
         }
@@ -1055,6 +1054,7 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
       case N:                               \
         yyformat = S;                       \
       break
+    default: /* Avoid compiler warnings. */
       YYCASE_(0, YY_("syntax error"));
       YYCASE_(1, YY_("syntax error, unexpected %s"));
       YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
@@ -1066,9 +1066,10 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
 
   {
     YYSIZE_T yysize1 = yysize + yystrlen (yyformat);
-    if (! (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
+    if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
+      yysize = yysize1;
+    else
       return 2;
-    yysize = yysize1;
   }
 
   if (*yymsg_alloc < yysize)
@@ -1194,23 +1195,31 @@ yyparse (void)
   yychar = YYEMPTY; /* Cause a token to be read.  */
   goto yysetstate;
 
+
 /*------------------------------------------------------------.
-| yynewstate -- Push a new state, which is found in yystate.  |
+| yynewstate -- push a new state, which is found in yystate.  |
 `------------------------------------------------------------*/
- yynewstate:
+yynewstate:
   /* In all cases, when you get here, the value and location stacks
      have just been pushed.  So pushing a state here evens the stacks.  */
   yyssp++;
 
- yysetstate:
-  *yyssp = yystate;
+
+/*--------------------------------------------------------------------.
+| yynewstate -- set current state (the top of the stack) to yystate.  |
+`--------------------------------------------------------------------*/
+yysetstate:
+  *yyssp = (yytype_int16) yystate;
 
   if (yyss + yystacksize - 1 <= yyssp)
+#if !defined yyoverflow && !defined YYSTACK_RELOCATE
+    goto yyexhaustedlab;
+#else
     {
       /* Get the current used size of the three stacks, in elements.  */
-      YYSIZE_T yysize = yyssp - yyss + 1;
+      YYSIZE_T yysize = (YYSIZE_T) (yyssp - yyss + 1);
 
-#ifdef yyoverflow
+# if defined yyoverflow
       {
         /* Give user a chance to reallocate the stack.  Use copies of
            these so that the &'s don't force the real ones into
@@ -1226,14 +1235,10 @@ yyparse (void)
                     &yyss1, yysize * sizeof (*yyssp),
                     &yyvs1, yysize * sizeof (*yyvsp),
                     &yystacksize);
-
         yyss = yyss1;
         yyvs = yyvs1;
       }
-#else /* no yyoverflow */
-# ifndef YYSTACK_RELOCATE
-      goto yyexhaustedlab;
-# else
+# else /* defined YYSTACK_RELOCATE */
       /* Extend the stack our own way.  */
       if (YYMAXDEPTH <= yystacksize)
         goto yyexhaustedlab;
@@ -1249,22 +1254,22 @@ yyparse (void)
           goto yyexhaustedlab;
         YYSTACK_RELOCATE (yyss_alloc, yyss);
         YYSTACK_RELOCATE (yyvs_alloc, yyvs);
-#  undef YYSTACK_RELOCATE
+# undef YYSTACK_RELOCATE
         if (yyss1 != yyssa)
           YYSTACK_FREE (yyss1);
       }
 # endif
-#endif /* no yyoverflow */
 
       yyssp = yyss + yysize - 1;
       yyvsp = yyvs + yysize - 1;
 
       YYDPRINTF ((stderr, "Stack size increased to %lu\n",
-                  (unsigned long int) yystacksize));
+                  (unsigned long) yystacksize));
 
       if (yyss + yystacksize - 1 <= yyssp)
         YYABORT;
     }
+#endif /* !defined yyoverflow && !defined YYSTACK_RELOCATE */
 
   YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 
@@ -1273,11 +1278,11 @@ yyparse (void)
 
   goto yybackup;
 
+
 /*-----------.
 | yybackup.  |
 `-----------*/
 yybackup:
-
   /* Do appropriate processing given the current state.  Read a
      lookahead token if we need one and don't already have one.  */
 
@@ -1350,7 +1355,7 @@ yydefault:
 
 
 /*-----------------------------.
-| yyreduce -- Do a reduction.  |
+| yyreduce -- do a reduction.  |
 `-----------------------------*/
 yyreduce:
   /* yyn is the number of a rule to reduce with.  */
@@ -1371,7 +1376,7 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 112 "main.y" /* yacc.c:1646  */
+#line 112 "main.y" /* yacc.c:1652  */
     {
         for(NameList ptr = (yyvsp[-2].nameNodeList); ptr;ptr = ptr->next) {
             if(nameNodeFind(globalVarList, ptr->name) == NULL) {
@@ -1450,11 +1455,11 @@ yyreduce:
             }
         }
     }
-#line 1454 "main.tab.c" /* yacc.c:1646  */
+#line 1459 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 3:
-#line 192 "main.y" /* yacc.c:1646  */
+#line 192 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         // list 저장된 각 배열에 대하여 type 지정
@@ -1463,90 +1468,90 @@ yyreduce:
         }
         nameNodeConcat(((yyval.nameNodeList)), ((yyvsp[0].nameNodeList)));
     }
-#line 1467 "main.tab.c" /* yacc.c:1646  */
+#line 1472 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 4:
-#line 200 "main.y" /* yacc.c:1646  */
+#line 200 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = makeNameList();
     }
-#line 1475 "main.tab.c" /* yacc.c:1646  */
+#line 1480 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 5:
-#line 206 "main.y" /* yacc.c:1646  */
+#line 206 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = makeNameList();
         nameListAppend(&((yyval.nameNodeList)), (yyvsp[0].name), V_UNKNOWN, yylineno);
     }
-#line 1484 "main.tab.c" /* yacc.c:1646  */
+#line 1489 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 6:
-#line 210 "main.y" /* yacc.c:1646  */
+#line 210 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = makeNameList();
         nameListAppend(&((yyval.nameNodeList)), (yyvsp[-2].name), V_UNKNOWN, yylineno);
         nameNodeConcat(((yyval.nameNodeList)), ((yyvsp[0].nameNodeList)));
     }
-#line 1494 "main.tab.c" /* yacc.c:1646  */
+#line 1499 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 7:
-#line 218 "main.y" /* yacc.c:1646  */
+#line 218 "main.y" /* yacc.c:1652  */
     {
         (yyval.intData) = (yyvsp[0].intData);
     }
-#line 1502 "main.tab.c" /* yacc.c:1646  */
+#line 1507 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 8:
-#line 221 "main.y" /* yacc.c:1646  */
+#line 221 "main.y" /* yacc.c:1652  */
     {
         if((yyvsp[-3].intData) == V_INT)
             (yyval.intData) = V_INT_ARY;
         else
             (yyval.intData) = V_FLOAT_ARY;
     }
-#line 1513 "main.tab.c" /* yacc.c:1646  */
+#line 1518 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 9:
-#line 230 "main.y" /* yacc.c:1646  */
+#line 230 "main.y" /* yacc.c:1652  */
     {
         (yyval.intData) = V_INT;
     }
-#line 1521 "main.tab.c" /* yacc.c:1646  */
+#line 1526 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 10:
-#line 233 "main.y" /* yacc.c:1646  */
+#line 233 "main.y" /* yacc.c:1652  */
     {
         (yyval.intData) = V_FLOAT;
     }
-#line 1529 "main.tab.c" /* yacc.c:1646  */
+#line 1534 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 11:
-#line 239 "main.y" /* yacc.c:1646  */
+#line 239 "main.y" /* yacc.c:1652  */
     {
         (yyval.subProgList) = (yyvsp[0].subProgList);
         subProgListAppend(&((yyval.subProgList)), ((yyvsp[-1].subProgNodeData)).name, ((yyvsp[-1].subProgNodeData)).type, ((yyvsp[-1].subProgNodeData)).param_list, ((yyvsp[-1].subProgNodeData)).local_list, ((yyvsp[-1].subProgNodeData)).used_var_list, ((yyvsp[-1].subProgNodeData)).dec_line);
     }
-#line 1538 "main.tab.c" /* yacc.c:1646  */
+#line 1543 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 12:
-#line 243 "main.y" /* yacc.c:1646  */
+#line 243 "main.y" /* yacc.c:1652  */
     {
         (yyval.subProgList) = makeSubProgList();
     }
-#line 1546 "main.tab.c" /* yacc.c:1646  */
+#line 1551 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 13:
-#line 249 "main.y" /* yacc.c:1646  */
+#line 249 "main.y" /* yacc.c:1652  */
     {
         SubProgNode temp = (yyvsp[-2].subProgNodeData);
         temp.local_list = (yyvsp[-1].nameNodeList);
@@ -1554,11 +1559,11 @@ yyreduce:
         temp.dec_line = yylineno;
         (yyval.subProgNodeData) = temp;
     }
-#line 1558 "main.tab.c" /* yacc.c:1646  */
+#line 1563 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 14:
-#line 259 "main.y" /* yacc.c:1646  */
+#line 259 "main.y" /* yacc.c:1652  */
     {
         SubProgNode temp;
         //printf("%s\n", ($2));
@@ -1567,11 +1572,11 @@ yyreduce:
         temp.type = FUNC;
         (yyval.subProgNodeData) = temp;
     }
-#line 1571 "main.tab.c" /* yacc.c:1646  */
+#line 1576 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 15:
-#line 267 "main.y" /* yacc.c:1646  */
+#line 267 "main.y" /* yacc.c:1652  */
     {
         SubProgNode temp;
         strcpy(temp.name, (yyvsp[-2].name));
@@ -1579,27 +1584,27 @@ yyreduce:
         temp.type = PROC;
         (yyval.subProgNodeData) = temp;
     }
-#line 1583 "main.tab.c" /* yacc.c:1646  */
+#line 1588 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 16:
-#line 277 "main.y" /* yacc.c:1646  */
+#line 277 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-1].nameNodeList);
     }
-#line 1591 "main.tab.c" /* yacc.c:1646  */
+#line 1596 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 17:
-#line 280 "main.y" /* yacc.c:1646  */
+#line 280 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = makeNameList();
     }
-#line 1599 "main.tab.c" /* yacc.c:1646  */
+#line 1604 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 18:
-#line 286 "main.y" /* yacc.c:1646  */
+#line 286 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         // list 저장된 각 배열에 대하여 type 지정
@@ -1607,11 +1612,11 @@ yyreduce:
             ptr->type = (yyvsp[0].intData);
         }
     }
-#line 1611 "main.tab.c" /* yacc.c:1646  */
+#line 1616 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 19:
-#line 293 "main.y" /* yacc.c:1646  */
+#line 293 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-4].nameNodeList);
         // list 저장된 각 배열에 대하여 type 지정
@@ -1620,454 +1625,454 @@ yyreduce:
         }
         nameNodeConcat(((yyval.nameNodeList)), ((yyvsp[0].nameNodeList)));
     }
-#line 1624 "main.tab.c" /* yacc.c:1646  */
+#line 1629 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 20:
-#line 304 "main.y" /* yacc.c:1646  */
+#line 304 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-1].nameNodeList);
     }
-#line 1632 "main.tab.c" /* yacc.c:1646  */
+#line 1637 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 21:
-#line 310 "main.y" /* yacc.c:1646  */
+#line 310 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1640 "main.tab.c" /* yacc.c:1646  */
+#line 1645 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 22:
-#line 313 "main.y" /* yacc.c:1646  */
+#line 313 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1649 "main.tab.c" /* yacc.c:1646  */
+#line 1654 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 23:
-#line 320 "main.y" /* yacc.c:1646  */
+#line 320 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
         nameListAppend(&((yyval.nameNodeList)), (yyvsp[-2].name), V_UNKNOWN, yylineno);
     }
-#line 1658 "main.tab.c" /* yacc.c:1646  */
+#line 1663 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 24:
-#line 324 "main.y" /* yacc.c:1646  */
+#line 324 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1666 "main.tab.c" /* yacc.c:1646  */
+#line 1671 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 25:
-#line 327 "main.y" /* yacc.c:1646  */
+#line 327 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1674 "main.tab.c" /* yacc.c:1646  */
+#line 1679 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 26:
-#line 330 "main.y" /* yacc.c:1646  */
+#line 330 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1682 "main.tab.c" /* yacc.c:1646  */
+#line 1687 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 27:
-#line 333 "main.y" /* yacc.c:1646  */
+#line 333 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1690 "main.tab.c" /* yacc.c:1646  */
+#line 1695 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 28:
-#line 336 "main.y" /* yacc.c:1646  */
+#line 336 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1698 "main.tab.c" /* yacc.c:1646  */
+#line 1703 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 29:
-#line 339 "main.y" /* yacc.c:1646  */
+#line 339 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1706 "main.tab.c" /* yacc.c:1646  */
+#line 1711 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 30:
-#line 342 "main.y" /* yacc.c:1646  */
+#line 342 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1714 "main.tab.c" /* yacc.c:1646  */
+#line 1719 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 31:
-#line 345 "main.y" /* yacc.c:1646  */
+#line 345 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = makeNameList();
     }
-#line 1722 "main.tab.c" /* yacc.c:1646  */
+#line 1727 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 32:
-#line 351 "main.y" /* yacc.c:1646  */
+#line 351 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1731 "main.tab.c" /* yacc.c:1646  */
+#line 1736 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 33:
-#line 355 "main.y" /* yacc.c:1646  */
+#line 355 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-3].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-1].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1741 "main.tab.c" /* yacc.c:1646  */
+#line 1746 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 34:
-#line 360 "main.y" /* yacc.c:1646  */
+#line 360 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-6].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-4].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-3].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1752 "main.tab.c" /* yacc.c:1646  */
+#line 1757 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 35:
-#line 366 "main.y" /* yacc.c:1646  */
+#line 366 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-5].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-3].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1762 "main.tab.c" /* yacc.c:1646  */
+#line 1767 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 36:
-#line 374 "main.y" /* yacc.c:1646  */
+#line 374 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1771 "main.tab.c" /* yacc.c:1646  */
+#line 1776 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 37:
-#line 378 "main.y" /* yacc.c:1646  */
+#line 378 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-3].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-1].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1781 "main.tab.c" /* yacc.c:1646  */
+#line 1786 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 38:
-#line 386 "main.y" /* yacc.c:1646  */
+#line 386 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1790 "main.tab.c" /* yacc.c:1646  */
+#line 1795 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 39:
-#line 390 "main.y" /* yacc.c:1646  */
+#line 390 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-5].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-3].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1800 "main.tab.c" /* yacc.c:1646  */
+#line 1805 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 40:
-#line 398 "main.y" /* yacc.c:1646  */
+#line 398 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-4].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-2].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1810 "main.tab.c" /* yacc.c:1646  */
+#line 1815 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 41:
-#line 403 "main.y" /* yacc.c:1646  */
+#line 403 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-7].nameNodeList);
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-5].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[-3].nameNodeList));
         nameNodeConcat((yyval.nameNodeList), (yyvsp[0].nameNodeList));
     }
-#line 1821 "main.tab.c" /* yacc.c:1646  */
+#line 1826 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 42:
-#line 412 "main.y" /* yacc.c:1646  */
+#line 412 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = makeNameList();
     }
-#line 1829 "main.tab.c" /* yacc.c:1646  */
+#line 1834 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 43:
-#line 415 "main.y" /* yacc.c:1646  */
+#line 415 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-1].nameNodeList);
     }
-#line 1837 "main.tab.c" /* yacc.c:1646  */
+#line 1842 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 44:
-#line 421 "main.y" /* yacc.c:1646  */
+#line 421 "main.y" /* yacc.c:1652  */
     {
         strcpy((yyval.name), (yyvsp[0].name));
     }
-#line 1845 "main.tab.c" /* yacc.c:1646  */
+#line 1850 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 45:
-#line 424 "main.y" /* yacc.c:1646  */
+#line 424 "main.y" /* yacc.c:1652  */
     {
         strcpy((yyval.name), (yyvsp[-3].name));
     }
-#line 1853 "main.tab.c" /* yacc.c:1646  */
+#line 1858 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 46:
-#line 430 "main.y" /* yacc.c:1646  */
+#line 430 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-1].nameNodeList);
         nameListAppend(&((yyval.nameNodeList)), (yyvsp[-3].name), V_FUNC, yylineno);
     }
-#line 1862 "main.tab.c" /* yacc.c:1646  */
+#line 1867 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 47:
-#line 437 "main.y" /* yacc.c:1646  */
+#line 437 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1870 "main.tab.c" /* yacc.c:1646  */
+#line 1875 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 48:
-#line 440 "main.y" /* yacc.c:1646  */
+#line 440 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = makeNameList();
     }
-#line 1878 "main.tab.c" /* yacc.c:1646  */
+#line 1883 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 49:
-#line 446 "main.y" /* yacc.c:1646  */
+#line 446 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1886 "main.tab.c" /* yacc.c:1646  */
+#line 1891 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 50:
-#line 449 "main.y" /* yacc.c:1646  */
+#line 449 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         nameNodeConcat(((yyval.nameNodeList)), ((yyvsp[0].nameNodeList)));
     }
-#line 1895 "main.tab.c" /* yacc.c:1646  */
+#line 1900 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 51:
-#line 456 "main.y" /* yacc.c:1646  */
+#line 456 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1903 "main.tab.c" /* yacc.c:1646  */
+#line 1908 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 52:
-#line 459 "main.y" /* yacc.c:1646  */
+#line 459 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         nameNodeConcat(((yyval.nameNodeList)), ((yyvsp[0].nameNodeList)));
     }
-#line 1912 "main.tab.c" /* yacc.c:1646  */
+#line 1917 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 53:
-#line 466 "main.y" /* yacc.c:1646  */
+#line 466 "main.y" /* yacc.c:1652  */
     {
     (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1920 "main.tab.c" /* yacc.c:1646  */
+#line 1925 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 54:
-#line 469 "main.y" /* yacc.c:1646  */
+#line 469 "main.y" /* yacc.c:1652  */
     {
     (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
     nameNodeConcat(((yyval.nameNodeList)), ((yyvsp[0].nameNodeList)));
     }
-#line 1929 "main.tab.c" /* yacc.c:1646  */
+#line 1934 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 55:
-#line 476 "main.y" /* yacc.c:1646  */
+#line 476 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1937 "main.tab.c" /* yacc.c:1646  */
+#line 1942 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 56:
-#line 479 "main.y" /* yacc.c:1646  */
+#line 479 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[-2].nameNodeList);
         nameNodeConcat(((yyval.nameNodeList)), ((yyvsp[0].nameNodeList)));
     }
-#line 1946 "main.tab.c" /* yacc.c:1646  */
+#line 1951 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 57:
-#line 486 "main.y" /* yacc.c:1646  */
+#line 486 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = makeNameList();
     }
-#line 1954 "main.tab.c" /* yacc.c:1646  */
+#line 1959 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 58:
-#line 489 "main.y" /* yacc.c:1646  */
+#line 489 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = makeNameList();
     }
-#line 1962 "main.tab.c" /* yacc.c:1646  */
+#line 1967 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 59:
-#line 492 "main.y" /* yacc.c:1646  */
+#line 492 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = makeNameList();
         nameListAppend(&((yyval.nameNodeList)), (yyvsp[0].name), V_UNKNOWN, yylineno);
     }
-#line 1971 "main.tab.c" /* yacc.c:1646  */
+#line 1976 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 60:
-#line 496 "main.y" /* yacc.c:1646  */
+#line 496 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1979 "main.tab.c" /* yacc.c:1646  */
+#line 1984 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 61:
-#line 499 "main.y" /* yacc.c:1646  */
+#line 499 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1987 "main.tab.c" /* yacc.c:1646  */
+#line 1992 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 62:
-#line 502 "main.y" /* yacc.c:1646  */
+#line 502 "main.y" /* yacc.c:1652  */
     {
         (yyval.nameNodeList) = (yyvsp[0].nameNodeList);
     }
-#line 1995 "main.tab.c" /* yacc.c:1646  */
+#line 2000 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 63:
-#line 508 "main.y" /* yacc.c:1646  */
+#line 508 "main.y" /* yacc.c:1652  */
     {}
-#line 2001 "main.tab.c" /* yacc.c:1646  */
+#line 2006 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 64:
-#line 509 "main.y" /* yacc.c:1646  */
+#line 509 "main.y" /* yacc.c:1652  */
     {}
-#line 2007 "main.tab.c" /* yacc.c:1646  */
+#line 2012 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 65:
-#line 513 "main.y" /* yacc.c:1646  */
+#line 513 "main.y" /* yacc.c:1652  */
     {}
-#line 2013 "main.tab.c" /* yacc.c:1646  */
+#line 2018 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 66:
-#line 514 "main.y" /* yacc.c:1646  */
+#line 514 "main.y" /* yacc.c:1652  */
     {}
-#line 2019 "main.tab.c" /* yacc.c:1646  */
+#line 2024 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 67:
-#line 515 "main.y" /* yacc.c:1646  */
+#line 515 "main.y" /* yacc.c:1652  */
     {}
-#line 2025 "main.tab.c" /* yacc.c:1646  */
+#line 2030 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 68:
-#line 516 "main.y" /* yacc.c:1646  */
+#line 516 "main.y" /* yacc.c:1652  */
     {}
-#line 2031 "main.tab.c" /* yacc.c:1646  */
+#line 2036 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 69:
-#line 517 "main.y" /* yacc.c:1646  */
+#line 517 "main.y" /* yacc.c:1652  */
     {}
-#line 2037 "main.tab.c" /* yacc.c:1646  */
+#line 2042 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 70:
-#line 518 "main.y" /* yacc.c:1646  */
+#line 518 "main.y" /* yacc.c:1652  */
     {}
-#line 2043 "main.tab.c" /* yacc.c:1646  */
+#line 2048 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 71:
-#line 523 "main.y" /* yacc.c:1646  */
+#line 523 "main.y" /* yacc.c:1652  */
     {}
-#line 2049 "main.tab.c" /* yacc.c:1646  */
+#line 2054 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 72:
-#line 524 "main.y" /* yacc.c:1646  */
+#line 524 "main.y" /* yacc.c:1652  */
     {}
-#line 2055 "main.tab.c" /* yacc.c:1646  */
+#line 2060 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 73:
-#line 528 "main.y" /* yacc.c:1646  */
+#line 528 "main.y" /* yacc.c:1652  */
     {}
-#line 2061 "main.tab.c" /* yacc.c:1646  */
+#line 2066 "main.tab.c" /* yacc.c:1652  */
     break;
 
   case 74:
-#line 529 "main.y" /* yacc.c:1646  */
+#line 529 "main.y" /* yacc.c:1652  */
     {}
-#line 2067 "main.tab.c" /* yacc.c:1646  */
+#line 2072 "main.tab.c" /* yacc.c:1652  */
     break;
 
 
-#line 2071 "main.tab.c" /* yacc.c:1646  */
+#line 2076 "main.tab.c" /* yacc.c:1652  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2092,14 +2097,13 @@ yyreduce:
   /* Now 'shift' the result of the reduction.  Determine what state
      that goes to, based on the state we popped back to and the rule
      number reduced by.  */
-
-  yyn = yyr1[yyn];
-
-  yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;
-  if (0 <= yystate && yystate <= YYLAST && yycheck[yystate] == *yyssp)
-    yystate = yytable[yystate];
-  else
-    yystate = yydefgoto[yyn - YYNTOKENS];
+  {
+    const int yylhs = yyr1[yyn] - YYNTOKENS;
+    const int yyi = yypgoto[yylhs] + *yyssp;
+    yystate = (0 <= yyi && yyi <= YYLAST && yycheck[yyi] == *yyssp
+               ? yytable[yyi]
+               : yydefgoto[yylhs]);
+  }
 
   goto yynewstate;
 
@@ -2182,12 +2186,10 @@ yyerrlab:
 | yyerrorlab -- error raised explicitly by YYERROR.  |
 `---------------------------------------------------*/
 yyerrorlab:
-
-  /* Pacify compilers like GCC when the user code never invokes
-     YYERROR and the label yyerrorlab therefore never appears in user
-     code.  */
-  if (/*CONSTCOND*/ 0)
-     goto yyerrorlab;
+  /* Pacify compilers when the user code never invokes YYERROR and the
+     label yyerrorlab therefore never appears in user code.  */
+  if (0)
+    YYERROR;
 
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYERROR.  */
@@ -2249,12 +2251,14 @@ yyacceptlab:
   yyresult = 0;
   goto yyreturn;
 
+
 /*-----------------------------------.
 | yyabortlab -- YYABORT comes here.  |
 `-----------------------------------*/
 yyabortlab:
   yyresult = 1;
   goto yyreturn;
+
 
 #if !defined yyoverflow || YYERROR_VERBOSE
 /*-------------------------------------------------.
@@ -2266,6 +2270,10 @@ yyexhaustedlab:
   /* Fall through.  */
 #endif
 
+
+/*-----------------------------------------------------.
+| yyreturn -- parsing is finished, return the result.  |
+`-----------------------------------------------------*/
 yyreturn:
   if (yychar != YYEMPTY)
     {
@@ -2295,7 +2303,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 531 "main.y" /* yacc.c:1906  */
+#line 531 "main.y" /* yacc.c:1918  */
 
 
 int yyerror(char *s){
